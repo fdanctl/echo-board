@@ -7,9 +7,8 @@ export const createOneUser = async (data: NewUser) => {
     select: {
       id: true,
       email: true,
-      tier: true,
       name: true,
-      emailVerifiedAt: true,
+      username: true,
       createdAt: true,
     },
   });
@@ -17,4 +16,17 @@ export const createOneUser = async (data: NewUser) => {
 
 export const readOneUserByEmail = async (email: string) => {
   return await prisma.user.findUnique({ where: { email: email } });
+};
+
+export const readOneUserByUsername = async (username: string) => {
+  return await prisma.user.findUnique({
+    where: { username: username },
+    include: {
+      _count: {
+        select: {
+          Track: true,
+        }
+      }
+    },
+  });
 };

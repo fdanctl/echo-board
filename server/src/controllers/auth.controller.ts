@@ -1,5 +1,5 @@
-import { CookieOptions, NextFunction, Request, Response } from "express";
-import { AuthResponse, Credentials } from "../types/auth";
+import { NextFunction, Request, Response } from "express";
+import { AuthResponse, Credentials, NewUser } from "../types/auth";
 import { ApiResponse } from "../types/api";
 import {
   loginUser,
@@ -8,11 +8,7 @@ import {
   registerUser,
 } from "../services/auth.service";
 import ApiError from "../utils/apiError";
-import {
-  accessCookieOptions,
-  refreshCookieOptions,
-  refreshTokenExpiryDays,
-} from "../utils/token";
+import { accessCookieOptions, refreshCookieOptions } from "../utils/token";
 
 export const register = async (
   req: Request,
@@ -20,14 +16,15 @@ export const register = async (
   next: NextFunction,
 ) => {
   try {
-    const body: Credentials | undefined = req.body;
-    console.log(body);
+    const body: NewUser = req.body;
 
     if (
       !body?.email ||
       !body?.password ||
+      !body?.username ||
       body?.email === "" ||
-      body?.password === ""
+      body?.password === "" ||
+      body?.username === ""
     ) {
       throw new ApiError(400, "Missing email or password");
     }
@@ -41,6 +38,7 @@ export const register = async (
       data: {
         id: result.user.id,
         email: result.user.email,
+        username: result.user.username
       },
     };
     console.log("at: ", result.accessToken);
@@ -82,6 +80,7 @@ export const login = async (
       data: {
         id: result.user.id,
         email: result.user.email,
+        username: result.user.username,
       },
     };
     res

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { createOneUser, readOneUserByEmail } from "../models/auth.model";
+import { createOneUser, readOneUserByEmail } from "../models/user.model";
 import { Credentials, NewUser } from "../types/auth";
 import { User } from "@prisma/client";
 import { NewRefreshToken } from "../types/refreshToken";
@@ -16,18 +16,20 @@ import {
   refreshTokenExpiryDays,
 } from "../utils/token";
 
-export const registerUser = async (c: Credentials) => {
-  const user = await readOneUserByEmail(c.email);
+export const registerUser = async (data: NewUser) => {
+  const user = await readOneUserByEmail(data.email);
   if (user) {
     throw new ApiError(400, "Email in use");
   }
 
-  const hashedPassword = bcrypt.hashSync(c.password, 8);
+  const hashedPassword = bcrypt.hashSync(data.password, 8);
 
   const newUserData: NewUser = {
-    email: c.email,
+    email: data.email,
     password: hashedPassword,
-    name: c.email.split("@")[0],
+    name: data.name || data.email.split("@")[0],
+    username: data.username,
+    location: data.location,
   };
 
   const newUser = await createOneUser(newUserData);

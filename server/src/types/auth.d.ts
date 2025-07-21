@@ -8,13 +8,15 @@ export interface Credentials {
 export interface AuthResponse {
   id: string;
   email: string;
+  username: string;
 }
 
-export interface NewUser {
-  email: string;
+export interface NewUser extends Credentials {
   name: string;
-  password: string;
+  username: string;
+  location: string;
 }
+
 
 export type TokenType = "access" | "refresh";
 export interface JwtPayloadCustom extends JwtPayload {
