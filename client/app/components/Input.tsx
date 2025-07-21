@@ -1,10 +1,12 @@
 export function Input({
+  className,
   type = "text",
   label,
   placeholder,
   id,
   required = false,
 }: {
+  className?: string;
   type?: "text" | "email" | "password" | "url";
   label: string;
   placeholder: string;
@@ -12,10 +14,10 @@ export function Input({
   required: boolean;
 }) {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
         {label}
       </label>

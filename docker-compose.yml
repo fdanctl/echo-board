@@ -10,6 +10,7 @@ services:
       - server
     environment:
       - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
+      - SERVER_PORT=${SERVER_PORT}
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -21,12 +22,13 @@ services:
       dockerfile: Dockerfile
     container_name: server
     ports:
-      - "${SERVER_PORT}:8383"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - postgres
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - PORT=${SERVER_PORT}
+      - CLIENT_PORT=${CLIENT_PORT}
       - ACCESS_TOKEN_SECRET=${ACCESS_TOKEN_SECRET}
       - REFRESH_TOKEN_SECRET=${REFRESH_TOKEN_SECRET}
     volumes:

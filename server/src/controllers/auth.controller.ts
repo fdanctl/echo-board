@@ -21,15 +21,21 @@ export const register = async (
     if (
       !body?.email ||
       !body?.password ||
-      !body?.username ||
       body?.email === "" ||
-      body?.password === "" ||
-      body?.username === ""
+      body?.password === ""
     ) {
       throw new ApiError(400, "Missing email or password");
     }
     if (!body.email.includes("@")) {
       throw new ApiError(400, "Invalid email");
+    }
+
+    if (!body?.location || body?.location === "") {
+      throw new ApiError(400, "Missing location");
+    }
+
+    if (!body?.username || body?.username === "") {
+      throw new ApiError(400, "Missing username");
     }
 
     const result = await registerUser(body);
@@ -38,7 +44,7 @@ export const register = async (
       data: {
         id: result.user.id,
         email: result.user.email,
-        username: result.user.username
+        username: result.user.username,
       },
     };
     console.log("at: ", result.accessToken);
