@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "darwin-arm64", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum TrackType {
+    BEAT
+    VOCAL
+}
+
+model User {
+    id           String         @id @default(uuid())
+    name         String
+    username     String
+    email        String         @unique
+    password     String
+    location     String
+    refreshToken RefreshToken[]
+    Follower     Follow[]       @relation("Followee")
+    Following    Follow[]       @relation("Follower")
+    Like         Like[]
+    Comment      Comment[]
+    BoughtTracks BoughtTracks[]
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    deletedBy    String?
+    deletedAt    DateTime?
+
+    @@index([deletedAt])
+    @@index([email])
+}
+
+model RefreshToken {
+    id        String   @id @default(uuid())
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    token     String   @unique
+    createdAt DateTime @default(now())
+    expiresAt DateTime
+    revoked   Boolean  @default(false)
+
+    @@index([userId])
+}
+
+model Genre {
+    id    Int     @id @default(autoincrement())
+    name  String
+    Track Track[]
+}
+
+model Tag {
+    id    Int     @id @default(autoincrement())
+    name  String
+    Track Track[]
+}
+
+model Mood {
+    id    Int     @id @default(autoincrement())
+    name  String
+    Track Track[]
+}
+
+model Track {
+    id           String         @id @default(uuid())
+    name         String
+    trackType    TrackType
+    genre        Genre          @relation(fields: [genreId], references: [id])
+    genreId      Int
+    Mood         Mood           @relation(fields: [moodId], references: [id])
+    moodId       Int
+    bpm          Int
+    price        Int
+    Tag          Tag?           @relation(fields: [tagId], references: [id])
+    tagId        Int?
+    Like         Like[]
+    Comment      Comment[]
+    BoughtTracks BoughtTracks[]
+    publishAt    DateTime       @default(now())
+    deletedBy    String?
+    deletedAt    DateTime?
+}
+
+model Like {
+    id      Int    @id @default(autoincrement())
+    Track   Track  @relation(fields: [trackId], references: [id])
+    trackId String
+    User    User   @relation(fields: [userId], references: [id])
+    userId  String
+}
+
+model Comment {
+    id        Int      @id @default(autoincrement())
+    User      User     @relation(fields: [userId], references: [id])
+    userId    String
+    Track     Track    @relation(fields: [trackId], references: [id])
+    trackId   String
+    content   String
+    createdAt DateTime @default(now())
+}
+
+model Follow {
+    id         Int    @id @default(autoincrement())
+    Followee   User   @relation("Followee", fields: [followeeId], references: [id])
+    followeeId String
+    Follower   User   @relation("Follower", fields: [followerId], references: [id])
+    followerId String
+}
+
+model BoughtTracks {
+    id      Int    @id @default(autoincrement())
+    User    User   @relation(fields: [userId], references: [id])
+    userId  String
+    Track   Track  @relation(fields: [trackId], references: [id])
+    trackId String
+}
