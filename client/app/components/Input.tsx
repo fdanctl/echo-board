@@ -1,5 +1,16 @@
 import type { ChangeEvent } from "react";
 
+interface InputProps {
+  className?: string;
+  type?: "text" | "email" | "password" | "url";
+  label: string;
+  placeholder: string;
+  id: string;
+  required: boolean;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
 export function Input({
   className,
   type = "text",
@@ -9,16 +20,7 @@ export function Input({
   required = false,
   value,
   onChange,
-}: {
-  className?: string;
-  type?: "text" | "email" | "password" | "url";
-  label: string;
-  placeholder: string;
-  id: string;
-  required: boolean;
-  value?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}) {
+}: InputProps) {
   return (
     <div className={className}>
       <label

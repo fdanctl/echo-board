@@ -1,16 +1,16 @@
+interface PrimaryBtnProps {
+  className?: string;
+  text: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+}
+
 export function PrimaryBtn({
   className,
   text,
   type = "button",
-  minWidth = false,
   onClick,
-}: {
-  className?: string;
-  text: string;
-  type?: "button" | "submit" | "reset";
-  minWidth?: boolean;
-  onClick?: () => void;
-}) {
+}: PrimaryBtnProps) {
   return (
     <button
       type={type}

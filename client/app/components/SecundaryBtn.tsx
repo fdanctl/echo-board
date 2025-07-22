@@ -1,16 +1,15 @@
+interface SecundaryBtnProps {
+  className?: string;
+  text: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+}
 export function SecundaryBtn({
   className,
   text,
   type = "button",
-  minWidth = false,
   onClick,
-}: {
-  className?: string;
-  text: string;
-  type?: "button" | "submit" | "reset";
-  minWidth?: boolean;
-  onClick?: () => void;
-}) {
+}: SecundaryBtnProps) {
   return (
     <button
       type={type}
