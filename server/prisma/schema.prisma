@@ -57,19 +57,19 @@ model RefreshToken {
 
 model Genre {
     id    Int     @id @default(autoincrement())
-    name  String
+    name  String  @unique
     Track Track[]
 }
 
 model Tag {
     id    Int     @id @default(autoincrement())
-    name  String
+    name  String  @unique
     Track Track[]
 }
 
 model Mood {
     id    Int     @id @default(autoincrement())
-    name  String
+    name  String  @unique
     Track Track[]
 }
 

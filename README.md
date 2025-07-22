@@ -20,5 +20,7 @@ docker compose exec server npx prisma migrate dev --name init
 access postgres via cli
 ```sh
 docker exec -it echoboardDB psql -U <POSTGRES_USER> -d <your_db_name>
-
 ```
+
+### Add genre, tags and mood
+
