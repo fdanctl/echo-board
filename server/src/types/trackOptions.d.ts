@@ -1,6 +1,6 @@
 import { Genre, Mood, Tag, TrackType } from "@prisma/client";
 
-export type source = "mood" | "tag" | "genre";
+export type source = "mood" | "tag" | "genre" | "trackType";
 
 export interface TrackOptions {
   trackType: TrackType[];

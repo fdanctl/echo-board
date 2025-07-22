@@ -14,11 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-enum TrackType {
-    BEAT
-    VOCAL
-}
-
 model User {
     id           String         @id @default(uuid())
     name         String
@@ -62,6 +57,12 @@ model Genre {
     Track Track[]
 }
 
+model TrackType {
+    id    Int     @id @default(autoincrement())
+    name  String  @unique
+    Track Track[]
+}
+
 model Tag {
     id    Int     @id @default(autoincrement())
     name  String  @unique
@@ -79,7 +80,7 @@ model Track {
     User         User           @relation(fields: [userId], references: [id])
     userId       String
     name         String
-    trackType    TrackType
+    trackType    TrackType      @relation(fields: [trackTypeId], references: [id])
     genre        Genre          @relation(fields: [genreId], references: [id])
     genreId      Int
     Mood         Mood           @relation(fields: [moodId], references: [id])
@@ -95,6 +96,7 @@ model Track {
     publishAt    DateTime       @default(now())
     deletedBy    String?
     deletedAt    DateTime?
+    trackTypeId  Int
 }
 
 model TrackPlay {

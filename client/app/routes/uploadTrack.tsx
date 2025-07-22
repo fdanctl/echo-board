@@ -66,7 +66,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
     }
   };
 
-  // Make a handler
+  // TODO Make a handler
 
   return (
     <>
@@ -90,15 +90,15 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
           }
         />
         <div className="flex ">
-          {/*
           <SelectInput
             label="Track Type"
             placeholder="Choose a type"
             options={loaderData.trackType}
             id="trackType"
+            onChange={(selected: string) =>
+              setForm((ps) => ({ ...ps, genre: selected }))
+            }
           />
-          // TODO make type also a table
-          */}
           <SelectInput
             label="Genre"
             placeholder="Choose a genre"

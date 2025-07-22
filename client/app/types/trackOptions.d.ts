@@ -1,4 +1,4 @@
-export type source = "mood" | "tag" | "genre";
+export type source = "mood" | "tag" | "genre" | "trackType";
 
 export interface Options {
   id: number;
@@ -6,7 +6,7 @@ export interface Options {
 }
 
 export interface TrackOptions {
-  trackType: TrackType[];
+  trackType: Options[];
   mood: Options[];
   tag: Options[];
   genre: Options[];

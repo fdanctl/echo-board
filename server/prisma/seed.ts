@@ -13,6 +13,10 @@ async function main() {
       { name: "ambient" },
       { name: "r&b" },
       { name: "reggae" },
+      { name: "witchhouse" },
+      { name: "hyperpop" },
+      { name: "afro beat" },
+      { name: "grime" },
     ],
     skipDuplicates: true,
   });
@@ -26,9 +30,8 @@ async function main() {
       { name: "synth" },
       { name: "boom bap" },
       { name: "vocals" },
-      { name: "instrumental" },
-      { name: "live" },
       { name: "remix" },
+      { name: "guitar" },
     ],
     skipDuplicates: true,
   });
@@ -49,10 +52,21 @@ async function main() {
     skipDuplicates: true,
   });
 
+  const trackTypes = await prisma.trackType.createMany({
+    data: [
+      { name: "beat" },
+      { name: "vocal" },
+      { name: "stems" },
+      { name: "loops" },
+    ],
+    skipDuplicates: true,
+  });
+
   console.log("Seed data inserted.");
   console.log("Genre:\n", genres);
   console.log("Tags:\n", tags);
   console.log("Moods:\n", moods);
+  console.log("Track Types:\n", trackTypes);
 }
 
 main()

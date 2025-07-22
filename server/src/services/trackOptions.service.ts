@@ -1,4 +1,3 @@
-import { TrackType } from "@prisma/client";
 import { source, TrackOptions } from "../types/trackOptions";
 import { readAllTrackOptions } from "../models/trackOptions.model";
 
@@ -12,7 +11,7 @@ export const getAllTrackOptionsService = async () => {
   };
 
   const trackOptions: TrackOptions = {
-    trackType: Object.values(TrackType),
+    trackType: filterOptions("trackType"),
     mood: filterOptions("mood"),
     tag: filterOptions("tag"),
     genre: filterOptions("genre"),
