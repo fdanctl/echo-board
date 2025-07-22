@@ -24,3 +24,7 @@ docker exec -it echoboardDB psql -U <POSTGRES_USER> -d <your_db_name>
 
 ### Add genre, tags and mood
 
+```sh
+docker exec -it server npx prisma db seed
+```
+
