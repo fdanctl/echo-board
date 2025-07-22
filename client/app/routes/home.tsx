@@ -5,6 +5,8 @@ import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { useThemeContext } from "~/context/ThemeContext";
 import { SearchInput } from "~/components/SearchInput";
 import { FileInput } from "~/components/FileInput";
+import { DropdownWithSearch } from "~/components/DropdownWithSearch";
+import { SelectInput } from "~/components/SelectInput";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -36,7 +38,6 @@ export default function Home() {
         onChange={() => console.log("nada")}
         placeholder="Search"
       />
-      <FileInput label="Track" id="track" info="mp3" acceptedFiles="" />
     </>
   );
 }

@@ -12,4 +12,5 @@ export default [
     route("login", "./routes/auth/login.tsx"),
     route("signup", "./routes/auth/signUp.tsx"),
   ]),
+  route("new-track", "./routes/uploadTrack.tsx")
 ] satisfies RouteConfig;

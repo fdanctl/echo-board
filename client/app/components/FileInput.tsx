@@ -7,7 +7,7 @@ interface FileInputProps {
   info?: string;
   acceptedFiles?: string;
   file: File | null;
-  setFile: Dispatch<SetStateAction<File | null>>;
+  setFile: (f: File | null) => void;
 }
 
 export function FileInput({
@@ -34,7 +34,7 @@ export function FileInput({
   return (
     <div className={className}>
       <div
-        className="flex items-center gap-2 bg-gray-50 text-gray-700 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-lg"
+        className="flex items-center gap-2 bg-gray-50 text-gray-700 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-lg cursor-pointer"
         onClick={handleButtonClick}
       >
         <div className="bg-accent2 dark:bg-accent2-dark text-white px-4 py-1.5 rounded-l-lg">
