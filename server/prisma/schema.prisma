@@ -53,6 +53,7 @@ model RefreshToken {
     revoked   Boolean  @default(false)
 
     @@index([userId])
+    @@index([token])
 }
 
 model Genre {
