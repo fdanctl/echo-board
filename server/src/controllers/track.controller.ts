@@ -1,9 +1,28 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Response, Request } from "express";
 import { ApiResponse, AuthenticatedRequest } from "../types/api";
-import { PostTrack, PostTrackReq, PostTrackRes } from "../types/track";
+import { PostTrack, PostTrackReq, PostTrackRes, TrackInfo } from "../types/track";
 import ApiError from "../utils/apiError";
-import { insertOneTrack } from "../services/tracks.service";
+import { insertOneTrack, getOneTrack } from "../services/tracks.service";
 
+export const getTrack = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const trackId = req.params.id;
+  console.log("trackId: ", trackId)
+  try {
+    const track = await getOneTrack(trackId);
+
+    const response: ApiResponse<TrackInfo> = {
+      success: true,
+      data: track,
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
 export const postTrack = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -31,16 +50,16 @@ export const postTrack = async (
     ) {
       throw new ApiError(400, "Missing params");
     }
-    console.log(body)
+    console.log(body);
 
     // tags can be string string[] or non existant
-    let tags: number[]
+    let tags: number[];
     if (!body.tags) {
-      tags = []
+      tags = [];
     } else if (typeof body.tags === "string") {
-      tags = [Number(body.tags)]
+      tags = [Number(body.tags)];
     } else {
-      tags = body.tags.map((t) => Number(t))
+      tags = body.tags.map((t) => Number(t));
     }
 
     const postTrack: PostTrack = {
@@ -51,9 +70,9 @@ export const postTrack = async (
       tags: tags,
       bpm: Number(body.trackType),
       price: Number(body.trackType),
-    }
+    };
 
-    console.log(postTrack)
+    console.log(postTrack);
 
     const data = await insertOneTrack(postTrack, userId, file);
 

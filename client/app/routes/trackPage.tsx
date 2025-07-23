@@ -1,9 +1,10 @@
-import { Heart, Play, Repeat2 } from "lucide-react";
+import { Heart, MessageCircle, Play, Repeat2 } from "lucide-react";
 import type { Route } from "./+types/trackPage";
 import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
 import { Navbar } from "~/components/Navbar";
+import { getTrack } from "~/services/track";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -12,57 +13,66 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   console.log(params.track);
   // TODO
+  return await getTrack(params.track);
 }
 
-export default function Track() {
+export default function Track({ loaderData }: Route.ComponentProps) {
+  const track = loaderData;
   return (
     <>
       <Navbar />
       {/* HERO */}
       <div className="flex bg-background dark:bg-background-dark justify-between mb-6 p-4">
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <div className="aspect-square h-50 bg-gray-400 rounded-xs" />
           <div className="flex flex-col justify-between">
-            <div className="flex gap-2">
+            <div className="flex gap-2 mt-3">
               <div className="aspect-square text-accent2 flex items-center justify-center bg-gray-400 w-fit h-fit p-3 rounded-full">
                 <Play />
               </div>
               <div>
                 <p className="text-xl font-medium whitespace-nowrap text-ellipsis">
-                  [Track Tittle]
+                  {track.name}
                 </p>
-                <p className="text-gray-600 whitespace-nowrap">[Author]</p>
+                <p className="text-gray-600 whitespace-nowrap">
+                  {track.author.name}
+                </p>
               </div>
             </div>
             <div className="flex gap-1">
               <div className="flex gap-0.5 items-center">
                 <Play size={12} fill="#111" />
-                <p className="text-xs ">[xxx]</p>
+                <p className="text-xs ">{track.stats.TrackPlay}</p>
               </div>
               <div className="flex gap-1 items-center">
                 <Heart size={12} fill="#111" />
-                <p className="text-xs ">[xxx]</p>
+                <p className="text-xs ">{track.stats.Like}</p>
               </div>
               <div className="flex gap-1 items-center">
-                <Repeat2 size={12} fill="#111" />
-                <p className="text-xs ">[xxx]</p>
+                <MessageCircle size={12} fill="#111" />
+                <p className="text-xs ">{track.stats.Comment}</p>
               </div>
             </div>
           </div>
         </div>
         <div className="text-right justify-self-end flex flex-col justify-between">
           <div>
-            <p>[x] day ago</p>
-            <div className="flex flex-wrap justify-end">
-              <div className="px-2 py-0.5 w-fit bg-gray-400 rounded-full">
-                <p className="text-xs">[tag]</p>
-              </div>
+            <p>{track.publishAt.toString()}</p>
+            <div className="flex flex-wrap gap-1 justify-end">
+              {track.tags.map((e) => (
+                <div key={e.id} className="px-2 py-0.5 w-fit bg-gray-400 rounded-full">
+                  <p className="text-xs">#{e.name}</p>
+                </div>
+              ))}
             </div>
           </div>
           <div>
+            <p>
+              <b>Price: </b>${track.price}
+            </p>
             <SecundaryBtn text="Add to cart" />
             <PrimaryBtn text="Buy Now" />
           </div>
@@ -73,8 +83,10 @@ export default function Track() {
         {/* Comment section */}
         <div>
           <div className="flex justify-between">
-            <p className="text-lg mb-5 font-medium">[xxx] Comments</p>
-            <p className="text-lg">Sorted by: oldest</p>
+            <p className="text-lg mb-5 font-medium">
+              {track.stats.Comment} Comments
+            </p>
+            <p className="text-lg">Sorted by: newest</p>
           </div>
           <div className="flex gap-2 items-center">
             <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
@@ -84,24 +96,26 @@ export default function Track() {
               className="w-full"
             />
           </div>
-          <div className="mt-5">
-            <div className="flex gap-4">
-              <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
-              <div>
-                <p className="text-sm">
-                  <b>[author]</b> &#x2022; [x] days ago
-                </p>
-                <p className="mt-2">[This is a very productive comment]</p>
+          {track.comments.map((e) => (
+            <div key={e.id} className="mt-5">
+              <div className="flex gap-4">
+                <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
+                <div>
+                  <p className="text-sm">
+                    <b>{e.userId}</b> &#x2022; {e.createdAt.toString()}
+                  </p>
+                  <p className="mt-2">{e.content}</p>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
 
         {/* sugest section */}
         <div className="">
-          <p className="text-lg">Related Tracks</p>
+          <p className="text-lg mb-5">Related Tracks</p>
           <div className="flex gap-1">
-            <div className="aspect-square h-11 w-11 bg-gray-500" />
+            <div className="aspect-square h-11 w-11 bg-gray-500 rounded-xs" />
             <div className="flex flex-col justify-between">
               <div>
                 <p className="text-xs font-medium">[title]</p>

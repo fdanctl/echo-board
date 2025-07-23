@@ -1,10 +1,25 @@
+import type { ApiResponse } from "~/types/api";
 import { BASE_URL } from "./api";
+import type { TrackInfo } from "~/types/tracks";
 
-export const postTrack = (data: FormData) => {
-  return fetch(`${BASE_URL}/tracks/new`, {
+export const postTrack = async (data: FormData) => {
+  return await fetch(`${BASE_URL}/tracks/new`, {
     method: "POST",
     credentials: "include",
-    body: data
+    body: data,
   });
-  }
+};
 
+export const getTrack = async (id: string) => {
+  const res = await fetch(`${BASE_URL}/tracks/${id}`, {
+    method: "GET",
+  });
+
+  const json = (await res.json()) as ApiResponse<TrackInfo>;
+
+  if(json.success) {
+    return json.data;
+  } else {
+    throw new Error(`Failed to fetch: ${json.error}`);
+  }
+}

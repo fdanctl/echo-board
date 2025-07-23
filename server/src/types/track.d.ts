@@ -36,3 +36,36 @@ export interface PostTrackRes {
   id: string;
   name: string;
 }
+
+export interface TrackInfo {
+  id: string;
+  url: string;
+  name: string;
+  genre: {
+    id: number;
+    name: string;
+  };
+  tags: {
+    id: number;
+    name: string;
+  }[];
+  author: {
+    id: string;
+    name: string;
+  };
+  stats: {
+    TrackPlay: number;
+    Like: number;
+    Comment: number;
+  };
+  publishAt: Date;
+  price: number;
+  bpm: number;
+  comments: {
+    id: number;
+    userId: string;
+    createdAt: Date;
+    trackId: string;
+    content: string;
+  }[];
+}
