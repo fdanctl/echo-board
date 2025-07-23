@@ -3,6 +3,7 @@ import type { Route } from "./+types/trackPage";
 import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
+import { Navbar } from "~/components/Navbar";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -19,18 +20,21 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function Track() {
   return (
     <>
+      <Navbar />
       {/* HERO */}
-      <div className="flex bg-background dark:bg-background-dark justify-between mb-6">
+      <div className="flex bg-background dark:bg-background-dark justify-between mb-6 p-4">
         <div className="flex gap-2">
-          <div className="aspect-square h-50 bg-gray-400" />
+          <div className="aspect-square h-50 bg-gray-400 rounded-xs" />
           <div className="flex flex-col justify-between">
             <div className="flex gap-2">
               <div className="aspect-square text-accent2 flex items-center justify-center bg-gray-400 w-fit h-fit p-3 rounded-full">
                 <Play />
               </div>
               <div>
-                <p className="text-xl font-medium">[Track Tittle]</p>
-                <p className="text-gray-600">[Author]</p>
+                <p className="text-xl font-medium whitespace-nowrap text-ellipsis">
+                  [Track Tittle]
+                </p>
+                <p className="text-gray-600 whitespace-nowrap">[Author]</p>
               </div>
             </div>
             <div className="flex gap-1">
@@ -65,7 +69,7 @@ export default function Track() {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1fr_auto]">
+      <div className="grid grid-cols-[1fr_auto] gap-6">
         {/* Comment section */}
         <div>
           <div className="flex justify-between">
@@ -94,8 +98,8 @@ export default function Track() {
         </div>
 
         {/* sugest section */}
-        <div>
-          <p>Sugestions</p>
+        <div className="">
+          <p className="text-lg">Related Tracks</p>
           <div className="flex gap-1">
             <div className="aspect-square h-11 w-11 bg-gray-500" />
             <div className="flex flex-col justify-between">

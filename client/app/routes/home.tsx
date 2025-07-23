@@ -7,8 +7,9 @@ import { SearchInput } from "~/components/SearchInput";
 import { FileInput } from "~/components/FileInput";
 import { DropdownWithSearch } from "~/components/DropdownWithSearch";
 import { SelectInput } from "~/components/SelectInput";
+import { Navbar } from "~/components/Navbar";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -20,6 +21,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar />
       <h1 className="font-medium text-3xl text-accent1">Hello</h1>
       <Input
         type="email"
