@@ -3,10 +3,10 @@ import type { ChangeEvent } from "react";
 interface InputProps {
   className?: string;
   type?: "text" | "email" | "password" | "url";
-  label: string;
+  label?: string;
   placeholder: string;
   id: string;
-  required: boolean;
+  required?: boolean;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
@@ -23,12 +23,14 @@ export function Input({
 }: InputProps) {
   return (
     <div className={className}>
-      <label
-        htmlFor={id}
-        className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={id}
+          className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        >
+          {label}
+        </label>
+      )}
       <input
         type={type}
         id={id}
