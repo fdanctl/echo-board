@@ -79,7 +79,6 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
     }
   };
 
-  // TODO Make a handler
   const handleChangeNumberInputs = (
     e: ChangeEvent<HTMLInputElement>,
     key: "bpm" | "price"
@@ -112,7 +111,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             setForm((ps) => ({ ...ps, name: e.target.value }))
           }
         />
-        <div className="flex ">
+        <div className="flex">
           <SelectInput
             label="Track Type"
             placeholder="Choose a type"
