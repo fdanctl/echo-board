@@ -1,4 +1,3 @@
-import { Form } from "react-router";
 import { Input } from "~/components/Input";
 import { DropdownWithSearch } from "~/components/DropdownWithSearch";
 import type { Route } from "./+types/uploadTrack";
@@ -9,8 +8,10 @@ import { authenticatedFetch, BASE_URL } from "~/services/api";
 import type { ApiResponse } from "~/types/api";
 import type { TrackOptions } from "~/types/trackOptions";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
+import { Form } from "react-router";
+import type { TrackForm } from "~/types/tracks";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -29,10 +30,28 @@ export async function clientLoader() {
   }
 }
 
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+
+  const trackForm: TrackForm = {
+    file: formData.get("track") as File,
+    name: String(formData.get("name")),
+    trackType: Number(formData.get("trackType")),
+    genre: Number(formData.get("genre")),
+    mood: Number(formData.get("mood")),
+    tags: formData.getAll("tags").map((id) => Number(id)),
+    bpm: Number(formData.get("bpm")),
+    price: Number(formData.get("price")),
+  };
+
+  console.log(trackForm.file);
+  // await authenticatedFetch(() => postTrack(formData));
+}
+
 interface Form {
   file: File | null;
   name: string;
-  trackType: "BEAT" | "VOCAL" | null;
+  trackType: string;
   genre: string;
   mood: string;
   tags: number[];
@@ -44,19 +63,13 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
   const [form, setForm] = useState<Form>({
     file: null,
     name: "",
-    trackType: null,
+    trackType: "",
     genre: "",
     mood: "",
     tags: [],
     bpm: "",
     price: "",
   });
-
-  const handleSubmit = async () => {
-    console.log(form);
-
-    // await authenticatedFetch(() => postTrack(formData));
-  };
 
   const setFile = (f: File | null) => {
     if (f && form.name === "") {
@@ -67,16 +80,26 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
   };
 
   // TODO Make a handler
+  const handleChangeNumberInputs = (
+    e: ChangeEvent<HTMLInputElement>,
+    key: "bpm" | "price"
+  ) => {
+    const input = e.target.value;
+    if (Number(input) || input === "") {
+      setForm((ps) => ({ ...ps, [key]: input }));
+    }
+  };
 
   return (
     <>
       <h1 className="font-medium text-3xl text-accent1">Hello</h1>
-      <Form action="post">
+      <Form method="post" encType="multipart/form-data">
         <FileInput
           file={form.file}
           label="Track"
           id="track"
           setFile={setFile}
+          required
         />
         <Input
           type="text"
@@ -95,8 +118,10 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             placeholder="Choose a type"
             options={loaderData.trackType}
             id="trackType"
+            required
+            value={form.trackType}
             onChange={(selected: string) =>
-              setForm((ps) => ({ ...ps, genre: selected }))
+              setForm((ps) => ({ ...ps, trackType: selected }))
             }
           />
           <SelectInput
@@ -104,6 +129,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             placeholder="Choose a genre"
             options={loaderData.genre}
             id="genre"
+            required
             value={form.genre}
             onChange={(selected: string) =>
               setForm((ps) => ({ ...ps, genre: selected }))
@@ -114,6 +140,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             placeholder="Choose a mood"
             options={loaderData.mood}
             id="mood"
+            required
             value={form.mood}
             onChange={(selected: string) =>
               setForm((ps) => ({ ...ps, mood: selected }))
@@ -122,6 +149,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
         </div>
         <div className="flex">
           <DropdownWithSearch
+            id="tags"
             label="Tags"
             options={loaderData.tag}
             onChange={(selected: number[]) =>
@@ -134,16 +162,24 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             placeholder="100"
             id="bpm"
             required={true}
+            value={form.bpm}
+            onChange={(e) => handleChangeNumberInputs(e, "bpm")}
           />
           <Input
             type="text"
             label="Price"
             placeholder="100"
-            id="Price"
+            id="price"
             required={true}
+            value={form.price}
+            onChange={(e) => handleChangeNumberInputs(e, "price")}
           />
         </div>
-        <PrimaryBtn text="submit" type="button" onClick={handleSubmit} />
+        <PrimaryBtn
+          text="submit"
+          type="submit"
+        //onClick={() => console.log(form)}
+        />
       </Form>
     </>
   );

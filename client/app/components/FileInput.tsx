@@ -6,6 +6,7 @@ interface FileInputProps {
   id: string;
   info?: string;
   acceptedFiles?: string;
+  required?: boolean;
   file: File | null;
   setFile: (f: File | null) => void;
 }
@@ -17,6 +18,7 @@ export function FileInput({
   file,
   info,
   acceptedFiles,
+  required,
   setFile,
 }: FileInputProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -50,6 +52,7 @@ export function FileInput({
           onChange={handleFileChange}
           className="hidden"
           ref={fileInputRef}
+          required={required}
         />
       </div>
       {info && (

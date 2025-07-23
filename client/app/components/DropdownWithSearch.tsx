@@ -4,12 +4,14 @@ import { ChevronDown } from "lucide-react";
 import type { Options } from "~/types/trackOptions";
 
 interface DropdownWithSearchProps {
+  id: string;
   label: string;
   options: Options[];
   onChange?: (selected: number[]) => void;
 }
 
 export function DropdownWithSearch({
+  id,
   label,
   options,
   onChange,
@@ -22,7 +24,7 @@ export function DropdownWithSearch({
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleSelect = (option: Options) => {
-    console.log(option)
+    console.log(option);
     const exists = selected.some((item) => item === option.id);
     const newSelected = exists
       ? selected.filter((item) => item !== option.id)
@@ -50,9 +52,7 @@ export function DropdownWithSearch({
 
   return (
     <div className="relative w-72" ref={dropdownRef}>
-      <p
-        className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >
+      <p className="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">
         {label}
       </p>
       <button
@@ -61,7 +61,7 @@ export function DropdownWithSearch({
         className="py-1.5 pl-5 pr-3 me-2 mb-2 text-base text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent1 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 flex gap-2 items-center"
       >
         {label}
-        <ChevronDown size={16}/>
+        <ChevronDown size={16} />
       </button>
 
       {isOpen && (
@@ -81,16 +81,18 @@ export function DropdownWithSearch({
                   className="px-4 py-2 flex items-center hover:bg-gray-50 cursor-pointer"
                 >
                   <input
+                    name={id}
                     type="checkbox"
-                    checked={selected.some(
-                      (item) => item === option.id
-                    )}
-                    name={option.name}
+                    checked={selected.some((item) => item === option.id)}
+                    value={option.id}
                     id={option.name}
                     onChange={() => handleSelect(option)}
                     className="text-blue-600 rounded border-gray-300 focus:ring-blue-500 mr-3"
                   />
-                  <label className="text-gray-800 cursor-pointer w-full" htmlFor={option.name}>
+                  <label
+                    className="text-gray-800 cursor-pointer w-full"
+                    htmlFor={option.name}
+                  >
                     {option.name}
                   </label>
                 </li>
@@ -101,6 +103,11 @@ export function DropdownWithSearch({
           </ul>
         </div>
       )}
+
+      {/* for the form submition */}
+      {selected.map((tagId) => (
+        <input key={tagId} type="hidden" name={id} value={tagId} />
+      ))}
     </div>
   );
 }
