@@ -77,6 +77,7 @@ model Mood {
 
 model Track {
     id           String         @id @default(uuid())
+    trackUrl     String
     User         User           @relation(fields: [userId], references: [id])
     userId       String
     name         String
@@ -87,8 +88,7 @@ model Track {
     moodId       Int
     bpm          Int
     price        Int
-    Tag          Tag?           @relation(fields: [tagId], references: [id])
-    tagId        Int?
+    Tag          Tag[]  
     TrackPlay    TrackPlay[]
     Like         Like[]
     Comment      Comment[]

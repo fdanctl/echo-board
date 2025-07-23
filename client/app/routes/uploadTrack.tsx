@@ -10,6 +10,7 @@ import type { TrackOptions } from "~/types/trackOptions";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Form } from "react-router";
 import type { TrackForm } from "~/types/tracks";
+import { postTrack } from "~/services/track";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -33,19 +34,7 @@ export async function clientLoader() {
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
 
-  const trackForm: TrackForm = {
-    file: formData.get("track") as File,
-    name: String(formData.get("name")),
-    trackType: Number(formData.get("trackType")),
-    genre: Number(formData.get("genre")),
-    mood: Number(formData.get("mood")),
-    tags: formData.getAll("tags").map((id) => Number(id)),
-    bpm: Number(formData.get("bpm")),
-    price: Number(formData.get("price")),
-  };
-
-  console.log(trackForm.file);
-  // await authenticatedFetch(() => postTrack(formData));
+  await authenticatedFetch(() => postTrack(formData));
 }
 
 interface Form {

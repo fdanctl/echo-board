@@ -1,11 +1,10 @@
-import type { TrackForm } from "~/types/tracks";
 import { BASE_URL } from "./api";
 
-export const postTrack = (data: TrackForm) => {
+export const postTrack = (data: FormData) => {
   return fetch(`${BASE_URL}/tracks/new`, {
     method: "POST",
     credentials: "include",
-    body: JSON.stringify(data)
+    body: data
   });
   }
 

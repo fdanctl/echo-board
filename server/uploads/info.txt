@@ -1,0 +1,2 @@
+uploaded files goes to this folder
+for production consider s3 or cloudfare r1
