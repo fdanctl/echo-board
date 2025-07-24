@@ -62,11 +62,44 @@ async function main() {
     skipDuplicates: true,
   });
 
+  const keys = [
+    "C Major",
+    "C Minor",
+    "C# Major",
+    "C# Minor",
+    "D Major",
+    "D Minor",
+    "D# Major",
+    "D# Minor",
+    "E Major",
+    "E Minor",
+    "F Major",
+    "F Minor",
+    "F# Major",
+    "F# Minor",
+    "G Major",
+    "G Minor",
+    "G# Major",
+    "G# Minor",
+    "A Major",
+    "A Minor",
+    "A# Major",
+    "A# Minor",
+    "B Major",
+    "B Minor",
+  ];
+
+  const keyN = await prisma.key.createMany({
+    data: keys.map((k) => ({ name: k })),
+    skipDuplicates: true,
+  });
+
   console.log("Seed data inserted.");
   console.log("Genre:\n", genres);
   console.log("Tags:\n", tags);
   console.log("Moods:\n", moods);
   console.log("Track Types:\n", trackTypes);
+  console.log("Keys:\n", keyN);
 }
 
 main()

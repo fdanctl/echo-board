@@ -15,6 +15,7 @@ export const getAllTrackOptionsService = async () => {
     mood: filterOptions("mood"),
     tag: filterOptions("tag"),
     genre: filterOptions("genre"),
+    key: filterOptions("key"),
   };
 
   return trackOptions;

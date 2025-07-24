@@ -9,6 +9,8 @@ export const readAllTrackOptions = async (): Promise<TrackOptionsDBRes[]> => {
                                 SELECT *, 'genre' AS source FROM "Genre" 
                                 UNION 
                                 SELECT *, 'tag' AS source FROM "Tag"
+                                UNION 
+                                SELECT *, 'key' AS source FROM "Key"
                                 ORDER BY id ASC
                                 ;`;
 };

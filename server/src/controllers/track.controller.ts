@@ -1,6 +1,11 @@
 import { NextFunction, Response, Request } from "express";
 import { ApiResponse, AuthenticatedRequest } from "../types/api";
-import { PostTrack, PostTrackReq, PostTrackRes, TrackInfo } from "../types/track";
+import {
+  PostTrack,
+  PostTrackReq,
+  PostTrackRes,
+  TrackInfo,
+} from "../types/track";
 import ApiError from "../utils/apiError";
 import { insertOneTrack, getOneTrack } from "../services/tracks.service";
 
@@ -10,7 +15,6 @@ export const getTrack = async (
   next: NextFunction,
 ) => {
   const trackId = req.params.id;
-  console.log("trackId: ", trackId)
   try {
     const track = await getOneTrack(trackId);
 
@@ -30,7 +34,11 @@ export const postTrack = async (
 ) => {
   try {
     const body: PostTrackReq = req.body;
-    const file: Express.Multer.File | undefined = req.file;
+    const files = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+    const img = files["img"][0];
+    const track = files["track"][0];
     const userId = req.user?.sub;
 
     if (typeof userId !== "string") {
@@ -40,7 +48,8 @@ export const postTrack = async (
     // TODO fix spaghetti
 
     if (
-      !file ||
+      !img ||
+      !track ||
       !body.name ||
       !body.trackType ||
       !body.genre ||
@@ -50,7 +59,6 @@ export const postTrack = async (
     ) {
       throw new ApiError(400, "Missing params");
     }
-    console.log(body);
 
     // tags can be string string[] or non existant
     let tags: number[];
@@ -72,9 +80,7 @@ export const postTrack = async (
       price: Number(body.trackType),
     };
 
-    console.log(postTrack);
-
-    const data = await insertOneTrack(postTrack, userId, file);
+    const data = await insertOneTrack(postTrack, userId, track, img);
 
     const response: ApiResponse<PostTrackRes> = {
       success: true,

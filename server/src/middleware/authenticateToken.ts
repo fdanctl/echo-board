@@ -22,7 +22,6 @@ export const authenticateToken = (
     ) as JwtPayloadCustom;
 
     req.user = decoded;
-    console.log(decoded)
 
     next();
   } catch (err) {

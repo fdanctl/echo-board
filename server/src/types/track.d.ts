@@ -29,6 +29,7 @@ export interface NewTrack {
   bpm: number;
   price: number;
   trackUrl: string;
+  imgUrl: string;
   userId: string;
 }
 

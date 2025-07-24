@@ -18,6 +18,7 @@ model User {
     id           String         @id @default(uuid())
     name         String
     username     String         @unique
+    avatarUrl    String?
     email        String         @unique
     password     String
     location     String
@@ -75,9 +76,16 @@ model Mood {
     Track Track[]
 }
 
+model Key {
+    id    Int     @id @default(autoincrement())
+    name  String  @unique
+    Track Track[]
+}
+
 model Track {
     id           String         @id @default(uuid())
     trackUrl     String
+    imgUrl       String
     User         User           @relation(fields: [userId], references: [id])
     userId       String
     name         String
@@ -88,7 +96,9 @@ model Track {
     moodId       Int
     bpm          Int
     price        Int
-    Tag          Tag[]  
+    Tag          Tag[]
+    Key          Key?           @relation(fields: [keyId], references: [id])
+    keyId        Int?
     TrackPlay    TrackPlay[]
     Like         Like[]
     Comment      Comment[]

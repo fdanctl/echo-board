@@ -29,11 +29,13 @@ export const getOneTrack = async (trackId: string) => {
 export const insertOneTrack = async (
   data: PostTrack,
   userId: string,
-  file: Express.Multer.File,
+  track: Express.Multer.File,
+  img: Express.Multer.File,
 ) => {
   const newTrack: NewTrack = {
     userId: userId,
-    trackUrl: file.path,
+    trackUrl: track.path,
+    imgUrl: img.path,
     name: data.name,
     trackTypeId: data.trackType,
     genreId: data.genre,

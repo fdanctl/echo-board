@@ -12,7 +12,7 @@ import { Form } from "react-router";
 import type { TrackForm } from "~/types/tracks";
 import { postTrack } from "~/services/track";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -21,7 +21,7 @@ export function meta({ }: Route.MetaArgs) {
 
 export async function loader() {
   const res = await fetch(`${BASE_URL}/track-options`);
-  console.log("server loader")
+  console.log("server loader");
 
   const json = (await res.json()) as ApiResponse<TrackOptions>;
 
@@ -34,28 +34,35 @@ export async function loader() {
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
+  console.log(formData.get("img"))
 
   await authenticatedFetch(() => postTrack(formData));
 }
 
 interface Form {
-  file: File | null;
+  track: File | null;
+  img: File | null;
   name: string;
   trackType: string;
   genre: string;
   mood: string;
+  key: string;
   tags: number[];
   bpm: string;
   price: string;
 }
 
 export default function UploadTrack({ loaderData }: Route.ComponentProps) {
+  // TODO fix spaghetti (most likely don't need state, browser is handle it)
+  // TODO make form more appealing
   const [form, setForm] = useState<Form>({
-    file: null,
+    track: null,
+    img: null,
     name: "",
     trackType: "",
     genre: "",
     mood: "",
+    key: "",
     tags: [],
     bpm: "",
     price: "",
@@ -63,10 +70,14 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
 
   const setFile = (f: File | null) => {
     if (f && form.name === "") {
-      setForm((ps) => ({ ...ps, file: f, name: f.name }));
+      setForm((ps) => ({ ...ps, track: f, name: f.name }));
     } else {
-      setForm((ps) => ({ ...ps, file: f }));
+      setForm((ps) => ({ ...ps, track: f }));
     }
+  };
+
+  const setFile2 = (f: File | null) => {
+    setForm((ps) => ({ ...ps, img: f }));
   };
 
   const handleChangeNumberInputs = (
@@ -84,10 +95,19 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
       <h1 className="font-medium text-3xl text-accent1">Hello</h1>
       <Form method="post" encType="multipart/form-data">
         <FileInput
-          file={form.file}
+          file={form.track}
           label="Track"
           id="track"
           setFile={setFile}
+          acceptedFiles="audio/*"
+          required
+        />
+        <FileInput
+          file={form.img}
+          label="Image"
+          id="img"
+          setFile={setFile2}
+          acceptedFiles="image/*"
           required
         />
         <Input
@@ -135,6 +155,17 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
               setForm((ps) => ({ ...ps, mood: selected }))
             }
           />
+          <SelectInput
+            label="Key (optional)"
+            placeholder="Selecet a key"
+            options={loaderData.key}
+            id="key"
+            required
+            value={form.key}
+            onChange={(selected: string) =>
+              setForm((ps) => ({ ...ps, key: selected }))
+            }
+          />
         </div>
         <div className="flex">
           <DropdownWithSearch
@@ -167,7 +198,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
         <PrimaryBtn
           text="submit"
           type="submit"
-        //onClick={() => console.log(form)}
+          //onClick={() => console.log(form)}
         />
       </Form>
     </>
