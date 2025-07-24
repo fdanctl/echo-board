@@ -8,9 +8,11 @@ export interface TrackForm {
   bpm: number;
   price: number;
 }
+
 export interface TrackInfo {
   id: string;
   url: string;
+  imgUrl: string;
   name: string;
   genre: {
     id: number;

@@ -12,6 +12,7 @@ export const getOneTrack = async (trackId: string) => {
   const theTrack = {
     id: track.id,
     url: track.trackUrl,
+    imgUrl: track.imgUrl,
     name: track.name,
     genre: track.genre,
     tags: track.Tag,

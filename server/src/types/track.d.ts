@@ -41,6 +41,7 @@ export interface PostTrackRes {
 export interface TrackInfo {
   id: string;
   url: string;
+  imgUrl: string;
   name: string;
   genre: {
     id: number;

@@ -5,22 +5,61 @@ import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
 import { Navbar } from "~/components/Navbar";
 import { getTrack } from "~/services/track";
+import { verifyCookie } from "~/lib/validators";
+import { useState, type ChangeEvent } from "react";
+import { Form } from "react-router";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
 
-export async function clientLoader({ params }: Route.ClientLoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
   console.log(params.track);
   // TODO
-  return await getTrack(params.track);
+  const user = verifyCookie(request);
+  console.log("user", user);
+  const track = await getTrack(params.track);
+  return {
+    user,
+    track,
+  };
+}
+
+interface Comment {
+  id: number;
+  userId: string;
+  createdAt: Date;
+  trackId: string;
+  content: string;
 }
 
 export default function Track({ loaderData }: Route.ComponentProps) {
-  const track = loaderData;
+  const track = loaderData.track;
+  const user = loaderData.user;
+  const [content, setContent] = useState("");
+  const [comments, setComments] = useState(track.comments);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleAddComment = () => {
+    // optimistic add
+    const newComment: Comment = {
+      id: 1,
+      userId: user?.sub ?? "fall",
+      createdAt: new Date(),
+      trackId: track.id,
+      content: content,
+    };
+    setComments((ps) => ps.concat(newComment));
+  };
+
+  const handleLike = () => {
+    // optimistic add
+    setIsLiked((ps) => !ps);
+  };
+
   return (
     <>
       <Navbar />
@@ -63,7 +102,10 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             <p>{track.publishAt.toString()}</p>
             <div className="flex flex-wrap gap-1 justify-end">
               {track.tags.map((e) => (
-                <div key={e.id} className="px-2 py-0.5 w-fit bg-gray-400 rounded-full">
+                <div
+                  key={e.id}
+                  className="px-2 py-0.5 w-fit bg-gray-400 rounded-full"
+                >
                   <p className="text-xs">#{e.name}</p>
                 </div>
               ))}
@@ -79,6 +121,13 @@ export default function Track({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
+      <div className="flex">
+        <div onClick={handleLike}>
+          <Heart fill={isLiked ? "#111" : "none"} />
+        </div>
+        {track.stats.Like}
+      </div>
+
       <div className="grid grid-cols-[1fr_auto] gap-6">
         {/* Comment section */}
         <div>
@@ -90,13 +139,19 @@ export default function Track({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="flex gap-2 items-center">
             <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
-            <Input
-              id="comment"
-              placeholder="Write a comment"
-              className="w-full"
-            />
+            <Form className="w-full" onSubmit={handleAddComment}>
+              <Input
+                id="comment"
+                placeholder="Write a comment"
+                className="w-full"
+                value={content}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setContent(e.target.value)
+                }
+              />
+            </Form>
           </div>
-          {track.comments.map((e) => (
+          {comments.map((e) => (
             <div key={e.id} className="mt-5">
               <div className="flex gap-4">
                 <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />

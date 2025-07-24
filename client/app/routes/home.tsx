@@ -8,8 +8,9 @@ import { FileInput } from "~/components/FileInput";
 import { DropdownWithSearch } from "~/components/DropdownWithSearch";
 import { SelectInput } from "~/components/SelectInput";
 import { Navbar } from "~/components/Navbar";
+import { refresh } from "~/services/auth";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -31,6 +32,7 @@ export default function Home() {
         required={true}
       />
       <PrimaryBtn text="primary" />
+      <PrimaryBtn text="Refresh" onClick={() => refresh()} />
       <SecundaryBtn text="secundary" />
       <PrimaryBtn text="light" onClick={() => changeTheme("light")} />
       <PrimaryBtn text="dark" onClick={() => changeTheme("dark")} />
