@@ -1,10 +1,10 @@
 import type { ApiResponse } from "~/types/api";
-import type { AuthResponse, Credentials, NewUser } from "~/types/auth";
+import type { AuthResponse, Credentials, JwtPayloadCustom, NewUser } from "~/types/auth";
 import { BASE_URL, BASE_URL_CLIENT } from "./api";
 
 export const signUp = async (c: NewUser) => {
   try {
-    const response = await fetch(`${BASE_URL}/auth/register`, {
+    const response = await fetch(`${BASE_URL_CLIENT}/auth/register`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -30,7 +30,7 @@ export const signUp = async (c: NewUser) => {
 
 export const login = async (c: Credentials) => {
   try {
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+    const response = await fetch(`${BASE_URL_CLIENT}/auth/login`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -79,7 +79,8 @@ export const refresh = async () => {
       credentials: "include",
     });
 
-    return response.ok;
+    const user = await response.json() as JwtPayloadCustom;
+    return user;
   } catch (error) {
     console.error("Refresh error:", error);
     throw error;

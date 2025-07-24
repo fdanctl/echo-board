@@ -24,11 +24,13 @@ export const refreshCookieOptions: CookieOptions = {
 
 export const genJwtTokken = (
   userId: string,
+  username: string,
   tokenType: TokenType,
   isFresh?: boolean,
 ) => {
   const tokenPayload: JwtPayloadCustom = {
     sub: userId,
+    username: username,
     tokenType: tokenType,
     isFresh: isFresh !== undefined ? isFresh : tokenType === "access",
   };

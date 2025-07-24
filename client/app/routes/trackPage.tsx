@@ -6,10 +6,11 @@ import { Input } from "~/components/Input";
 import { Navbar } from "~/components/Navbar";
 import { getTrack } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Form } from "react-router";
+import { refresh } from "~/services/auth";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -38,21 +39,34 @@ interface Comment {
 
 export default function Track({ loaderData }: Route.ComponentProps) {
   const track = loaderData.track;
-  const user = loaderData.user;
+  const [user, setUser] = useState(loaderData.user);
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const newUser = await refresh();
+      setUser(newUser);
+    };
+
+    if (!user) {
+      fetchUser();
+    }
+  }, []);
+  console.log("user: ", user);
 
   const handleAddComment = () => {
     // optimistic add
     const newComment: Comment = {
       id: 1,
-      userId: user?.sub ?? "fall",
+      userId: user?.username ?? "fall",
       createdAt: new Date(),
       trackId: track.id,
       content: content,
     };
     setComments((ps) => ps.concat(newComment));
+    setContent("");
   };
 
   const handleLike = () => {

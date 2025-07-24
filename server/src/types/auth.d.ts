@@ -21,6 +21,7 @@ export interface NewUser extends Credentials {
 export type TokenType = "access" | "refresh";
 export interface JwtPayloadCustom extends JwtPayload {
   sub: string;
+  username: string;
   tokenType: TokenType;
   isFresh: boolean;
 }
