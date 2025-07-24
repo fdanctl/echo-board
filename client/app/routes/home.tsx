@@ -9,6 +9,9 @@ import { DropdownWithSearch } from "~/components/DropdownWithSearch";
 import { SelectInput } from "~/components/SelectInput";
 import { Navbar } from "~/components/Navbar";
 import { refresh } from "~/services/auth";
+import { getTracks } from "~/services/track";
+import { verifyCookie } from "~/lib/validators";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,8 +20,20 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
+export async function loader({ request }: Route.LoaderArgs) {
+  const user = verifyCookie(request);
+  // console.log("user", user);
+  const tracks = await getTracks();
+  return {
+    user,
+    tracks,
+  };
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
   const { theme, changeTheme } = useThemeContext();
+  const track = loaderData.tracks;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -42,6 +57,14 @@ export default function Home() {
         onChange={() => console.log("nada")}
         placeholder="Search"
       />
+      {track.map((e) => (
+        <div
+          className="border border-lime"
+          onClick={() => navigate(`/track/${e.id}`)}
+        >
+          {e.name}
+        </div>
+      ))}
     </>
   );
 }

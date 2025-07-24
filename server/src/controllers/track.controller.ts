@@ -11,8 +11,28 @@ import ApiError from "../utils/apiError";
 import {
   insertOneTrack,
   getOneTrack,
+  getManyTracks,
   insertOneComment,
 } from "../services/tracks.service";
+
+export const getTracks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const trackId = req.params.id;
+  try {
+    const track = await getManyTracks();
+
+    const response: ApiResponse<TrackInfo[]> = {
+      success: true,
+      data: track,
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getTrack = async (
   req: Request,

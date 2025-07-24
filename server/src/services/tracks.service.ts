@@ -1,7 +1,32 @@
 import { createOneComment } from "../models/comment.model";
-import { createOneTrack, readOneTrack } from "../models/track.model";
+import {
+  createOneTrack,
+  readOneTrack,
+  readManyTracks,
+} from "../models/track.model";
 import { NewTrack, NewTrackComment, PostTrack } from "../types/track";
 import ApiError from "../utils/apiError";
+
+export const getManyTracks = async () => {
+  const tracks = await readManyTracks();
+  // console.log(track);
+  const theTracks = tracks.map((track) => ({
+    id: track.id,
+    url: track.trackUrl,
+    imgUrl: track.imgUrl,
+    name: track.name,
+    genre: track.genre,
+    tags: track.Tag,
+    author: track.User,
+    stats: track._count,
+    publishAt: track.publishAt,
+    price: track.price,
+    bpm: track.bpm,
+    comments: track.Comment,
+  }));
+
+  return theTracks;
+};
 
 export const getOneTrack = async (trackId: string) => {
   const track = await readOneTrack(trackId);

@@ -10,6 +10,20 @@ export const postTrack = async (data: FormData) => {
   });
 };
 
+export const getTracks = async () => {
+  const res = await fetch(`${BASE_URL}/tracks`, {
+    method: "GET",
+  });
+
+  const json = (await res.json()) as ApiResponse<TrackInfo[]>;
+
+  if (json.success) {
+    return json.data;
+  } else {
+    throw new Error(`Failed to fetch: ${json.error}`);
+  }
+};
+
 export const getTrack = async (id: string) => {
   const res = await fetch(`${BASE_URL}/tracks/${id}`, {
     method: "GET",

@@ -3,6 +3,7 @@ import { authenticateToken } from "../middleware/authenticateToken";
 import upload from "../config/multerConfig";
 import {
   postTrack,
+  getTracks,
   getTrack,
   commentTrack,
 } from "../controllers/track.controller";
@@ -18,5 +19,6 @@ router.post(
   ]),
   postTrack,
 );
+router.get("/", getTracks);
 router.get("/:id", getTrack);
 router.post("/:id/comment", authenticateToken, commentTrack);
