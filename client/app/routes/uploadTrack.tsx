@@ -19,8 +19,9 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-export async function clientLoader() {
+export async function loader() {
   const res = await fetch(`${BASE_URL}/track-options`);
+  console.log("server loader")
 
   const json = (await res.json()) as ApiResponse<TrackOptions>;
 

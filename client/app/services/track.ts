@@ -1,9 +1,9 @@
 import type { ApiResponse } from "~/types/api";
-import { BASE_URL } from "./api";
+import { BASE_URL, BASE_URL_CLIENT } from "./api";
 import type { TrackInfo } from "~/types/tracks";
 
 export const postTrack = async (data: FormData) => {
-  return await fetch(`${BASE_URL}/tracks/new`, {
+  return await fetch(`${BASE_URL_CLIENT}/tracks/new`, {
     method: "POST",
     credentials: "include",
     body: data,

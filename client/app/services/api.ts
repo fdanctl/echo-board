@@ -1,7 +1,8 @@
 import type { ApiResponse } from "~/types/api";
 import { refresh } from "./auth";
 
-export const BASE_URL = "http://localhost:4000/api";
+export const BASE_URL = "http://server:4000/api";
+export const BASE_URL_CLIENT = "http://localhost:4000/api";
 
 export const authenticatedFetch = async <T>(
   fetchFn: () => Promise<Response> 

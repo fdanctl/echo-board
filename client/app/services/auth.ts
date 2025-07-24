@@ -1,6 +1,6 @@
 import type { ApiResponse } from "~/types/api";
 import type { AuthResponse, Credentials, NewUser } from "~/types/auth";
-import { BASE_URL } from "./api";
+import { BASE_URL, BASE_URL_CLIENT } from "./api";
 
 export const signUp = async (c: NewUser) => {
   try {
@@ -74,7 +74,7 @@ export const logout = async () => {
 export const refresh = async () => {
   console.log("refreshing..");
   try {
-    const response = await fetch(`${BASE_URL}/auth/refresh`, {
+    const response = await fetch(`${BASE_URL_CLIENT}/auth/refresh`, {
       method: "POST",
       credentials: "include",
     });
