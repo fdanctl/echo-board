@@ -64,6 +64,10 @@ export interface TrackInfo {
   price: number;
   bpm: number;
   comments: {
+    User: {
+      name: string,
+      username: string,
+    },
     id: number;
     userId: string;
     createdAt: Date;

@@ -15,6 +15,14 @@ export const readOneTrack = async (id: string) => {
       Mood: true,
       Tag: true,
       Comment: {
+        include: {
+          User: {
+            select: {
+              name: true,
+              username: true,
+            },
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },

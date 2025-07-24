@@ -34,6 +34,10 @@ interface Comment {
   userId: string;
   createdAt: Date;
   trackId: string;
+  User: {
+    username: string;
+    name: string;
+  };
   content: string;
 }
 
@@ -59,13 +63,17 @@ export default function Track({ loaderData }: Route.ComponentProps) {
     // optimistic add
     const newComment: Comment = {
       id: 1,
-      userId: user?.username ?? "fall",
+      userId: user?.sub ?? "fall",
       createdAt: new Date(),
+      User: {
+        name: user?.name || "fall",
+        username: user?.username || "fall",
+      },
       trackId: track.id,
       content: content,
     };
     setComments((ps) => ps.concat(newComment));
-    commentTrack( content , track.id);
+    commentTrack(content, track.id);
     setContent("");
   };
 
@@ -170,9 +178,12 @@ export default function Track({ loaderData }: Route.ComponentProps) {
               <div className="flex gap-4">
                 <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
                 <div>
-                  <p className="text-sm">
-                    <b>{e.userId}</b> &#x2022; {e.createdAt.toString()}
-                  </p>
+                  <div className="text-sm flex gap-1">
+                    <p className="font-medium">{e.User.name}</p>
+                    <p className="text-gray-500">@{e.User.username}</p>
+                    <p className="text-gray-500">&#x2022;</p>
+                    <p className="text-gray-500">{e.createdAt.toString()}</p>
+                  </div>
                   <p className="mt-2">{e.content}</p>
                 </div>
               </div>
