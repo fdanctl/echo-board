@@ -71,3 +71,12 @@ export interface TrackInfo {
     content: string;
   }[];
 }
+
+export interface TrackCommentReq {
+  content: string;
+}
+
+export interface NewTrackComment extends TrackCommentReq {
+  userId: string;
+  trackId: string;
+}

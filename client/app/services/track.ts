@@ -17,9 +17,20 @@ export const getTrack = async (id: string) => {
 
   const json = (await res.json()) as ApiResponse<TrackInfo>;
 
-  if(json.success) {
+  if (json.success) {
     return json.data;
   } else {
     throw new Error(`Failed to fetch: ${json.error}`);
   }
-}
+};
+
+export const commentTrack = async (content: string, id: string) => {
+  return await fetch(`${BASE_URL_CLIENT}/tracks/${id}/comment`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ content: content }),
+  });
+};

@@ -4,7 +4,7 @@ import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
 import { Navbar } from "~/components/Navbar";
-import { getTrack } from "~/services/track";
+import { commentTrack, getTrack } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { Form } from "react-router";
@@ -21,7 +21,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   console.log(params.track);
   // TODO
   const user = verifyCookie(request);
-  console.log("user", user);
+  // console.log("user", user);
   const track = await getTrack(params.track);
   return {
     user,
@@ -54,7 +54,6 @@ export default function Track({ loaderData }: Route.ComponentProps) {
       fetchUser();
     }
   }, []);
-  console.log("user: ", user);
 
   const handleAddComment = () => {
     // optimistic add
@@ -66,6 +65,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
       content: content,
     };
     setComments((ps) => ps.concat(newComment));
+    commentTrack( content , track.id);
     setContent("");
   };
 

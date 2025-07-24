@@ -4,10 +4,15 @@ import {
   PostTrack,
   PostTrackReq,
   PostTrackRes,
+  TrackCommentReq,
   TrackInfo,
 } from "../types/track";
 import ApiError from "../utils/apiError";
-import { insertOneTrack, getOneTrack } from "../services/tracks.service";
+import {
+  insertOneTrack,
+  getOneTrack,
+  insertOneComment,
+} from "../services/tracks.service";
 
 export const getTrack = async (
   req: Request,
@@ -27,6 +32,31 @@ export const getTrack = async (
     next(error);
   }
 };
+
+export const commentTrack = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const body: TrackCommentReq = req.body;
+    const trackId = req.params.id;
+    const userId = req.user?.sub;
+
+    if (typeof userId !== "string") {
+      throw new ApiError(500, "Internal server error");
+    }
+
+    if (!body.content || body.content === "") {
+      throw new ApiError(400, "Invalid or missing params");
+    }
+    const result = await insertOneComment({ ...body, trackId, userId });
+    res.send(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const postTrack = async (
   req: AuthenticatedRequest,
   res: Response,

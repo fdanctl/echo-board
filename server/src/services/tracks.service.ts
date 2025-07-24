@@ -1,5 +1,6 @@
+import { createOneComment } from "../models/comment.model";
 import { createOneTrack, readOneTrack } from "../models/track.model";
-import { NewTrack, PostTrack } from "../types/track";
+import { NewTrack, NewTrackComment, PostTrack } from "../types/track";
 import ApiError from "../utils/apiError";
 
 export const getOneTrack = async (trackId: string) => {
@@ -7,7 +8,7 @@ export const getOneTrack = async (trackId: string) => {
   if (track === null) {
     throw new ApiError(400, "No track found");
   }
-  console.log(track);
+  // console.log(track);
 
   const theTrack = {
     id: track.id,
@@ -51,4 +52,19 @@ export const insertOneTrack = async (
     id: res.id,
     name: res.name,
   };
+};
+
+export const insertOneComment = async (data: NewTrackComment) => {
+  const track = await readOneTrack(data.trackId);
+
+  if (!track) {
+    throw new ApiError(400, "Track doesn't exist");
+  }
+
+  const res = await createOneComment(data);
+
+  if (!res) {
+    throw new ApiError(500, "Internal server error");
+  }
+  return res;
 };
