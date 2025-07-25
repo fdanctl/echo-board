@@ -4,13 +4,19 @@ import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
 import { Navbar } from "~/components/Navbar";
-import { commentTrack, getTrack } from "~/services/track";
+import {
+  commentTrack,
+  getTrack,
+  likeTrack,
+  unlikeTrack,
+} from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { Form, useNavigate } from "react-router";
 import { refresh } from "~/services/auth";
 import moment from "moment";
 import { formatPrice } from "~/lib/utils";
+import { authenticatedFetch } from "~/services/api";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -76,13 +82,18 @@ export default function Track({ loaderData }: Route.ComponentProps) {
       content: content,
     };
     setComments((ps) => ps.concat(newComment));
-    commentTrack(content, track.id);
+    authenticatedFetch(() => commentTrack(content, track.id));
     setContent("");
   };
 
   const handleLike = () => {
     // optimistic add
+    const cb = isLiked
+      ? () => unlikeTrack(track.id)
+      : () => likeTrack(track.id);
+
     setIsLiked((ps) => !ps);
+    authenticatedFetch<{ message: string }>(cb);
   };
 
   return (

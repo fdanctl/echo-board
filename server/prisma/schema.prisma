@@ -124,6 +124,8 @@ model Like {
     trackId String
     User    User   @relation(fields: [userId], references: [id])
     userId  String
+
+    @@unique([userId, trackId])
 }
 
 model Comment {
@@ -134,6 +136,8 @@ model Comment {
     trackId   String
     content   String
     createdAt DateTime @default(now())
+
+    @@unique([userId, trackId])
 }
 
 model Follow {
@@ -142,6 +146,8 @@ model Follow {
     followeeId String
     Follower   User   @relation("Follower", fields: [followerId], references: [id])
     followerId String
+
+    @@unique([followeeId, followerId])
 }
 
 model BoughtTracks {
@@ -150,4 +156,6 @@ model BoughtTracks {
     userId  String
     Track   Track  @relation(fields: [trackId], references: [id])
     trackId String
+
+    @@unique([userId, trackId])
 }

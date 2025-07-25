@@ -48,3 +48,17 @@ export const commentTrack = async (content: string, id: string) => {
     body: JSON.stringify({ content: content }),
   });
 };
+
+export const likeTrack = async (id: string) => {
+  return await fetch(`${BASE_URL_CLIENT}/tracks/${id}/like`, {
+    method: "POST",
+    credentials: "include",
+  });
+};
+
+export const unlikeTrack = async (id: string) => {
+  return await fetch(`${BASE_URL_CLIENT}/tracks/${id}/unlike`, {
+    method: "POST",
+    credentials: "include",
+  });
+};

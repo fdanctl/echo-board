@@ -13,6 +13,8 @@ import {
   getOneTrack,
   getManyTracks,
   insertOneComment,
+  likeOneTrack,
+  unlikeOneTrack,
 } from "../services/tracks.service";
 
 export const getTracks = async (
@@ -20,7 +22,6 @@ export const getTracks = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const trackId = req.params.id;
   try {
     const track = await getManyTracks();
 
@@ -70,8 +71,67 @@ export const commentTrack = async (
     if (!body.content || body.content === "") {
       throw new ApiError(400, "Invalid or missing params");
     }
-    const result = await insertOneComment({ ...body, trackId, userId });
-    res.send(200).json(result);
+    await insertOneComment({ ...body, trackId, userId });
+
+    const response: ApiResponse<{ message: string }> = {
+      success: true,
+      data: {
+        message: "Track commented",
+      },
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const likeTrack = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const trackId = req.params.id;
+    const userId = req.user?.sub;
+
+    if (typeof userId !== "string") {
+      throw new ApiError(500, "Internal server error");
+    }
+
+    await likeOneTrack({ trackId, userId });
+    const response: ApiResponse<{ message: string }> = {
+      success: true,
+      data: {
+        message: "Track liked",
+      },
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const unlikeTrack = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const trackId = req.params.id;
+    const userId = req.user?.sub;
+
+    if (typeof userId !== "string") {
+      throw new ApiError(500, "Internal server error");
+    }
+
+    await unlikeOneTrack({ trackId, userId });
+    const response: ApiResponse<{ message: string }> = {
+      success: true,
+      data: {
+        message: "Track unliked",
+      },
+    };
+    res.status(200).json(response);
   } catch (error) {
     next(error);
   }

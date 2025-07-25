@@ -6,6 +6,8 @@ import {
   getTracks,
   getTrack,
   commentTrack,
+  likeTrack,
+  unlikeTrack,
 } from "../controllers/track.controller";
 
 export const router = express.Router();
@@ -21,4 +23,6 @@ router.post(
 );
 router.get("/", getTracks);
 router.get("/:id", getTrack);
+router.post("/:id/like", authenticateToken, likeTrack);
+router.post("/:id/unlike", authenticateToken, unlikeTrack);
 router.post("/:id/comment", authenticateToken, commentTrack);

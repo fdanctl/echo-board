@@ -1,4 +1,5 @@
 import { createOneComment } from "../models/comment.model";
+import { createOneLike, deleteOneLike } from "../models/like.model";
 import {
   createOneTrack,
   readOneTrack,
@@ -87,6 +88,42 @@ export const insertOneComment = async (data: NewTrackComment) => {
   }
 
   const res = await createOneComment(data);
+
+  if (!res) {
+    throw new ApiError(500, "Internal server error");
+  }
+  return res;
+};
+
+export const likeOneTrack = async (data: {
+  userId: string;
+  trackId: string;
+}) => { 
+  const track = await readOneTrack(data.trackId);
+
+  if (!track) {
+    throw new ApiError(400, "Track doesn't exist");
+  }
+
+  const res = await createOneLike(data);
+
+  if (!res) {
+    throw new ApiError(500, "Internal server error");
+  }
+  return res;
+};
+
+export const unlikeOneTrack = async (data: {
+  userId: string;
+  trackId: string;
+}) => { 
+  const track = await readOneTrack(data.trackId);
+
+  if (!track) {
+    throw new ApiError(400, "Track doesn't exist");
+  }
+
+  const res = await deleteOneLike(data);
 
   if (!res) {
     throw new ApiError(500, "Internal server error");
