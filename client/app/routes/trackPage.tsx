@@ -7,10 +7,12 @@ import { Navbar } from "~/components/Navbar";
 import { commentTrack, getTrack } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
 import { useEffect, useState, type ChangeEvent } from "react";
-import { Form } from "react-router";
+import { Form, useNavigate } from "react-router";
 import { refresh } from "~/services/auth";
+import moment from "moment";
+import { formatPrice } from "~/lib/utils";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -47,6 +49,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -121,7 +124,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
         </div>
         <div className="text-right justify-self-end flex flex-col justify-between">
           <div>
-            <p>{track.publishAt.toString()}</p>
+            <p>{moment(track.publishAt).fromNow()}</p>
             <div className="flex flex-wrap gap-1 justify-end">
               {track.tags.map((e) => (
                 <div
@@ -135,7 +138,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
           </div>
           <div>
             <p>
-              <b>Price: </b>${track.price}
+              <b>Price: </b>${formatPrice(track.price)}
             </p>
             <SecundaryBtn text="Add to cart" />
             <PrimaryBtn text="Buy Now" />
@@ -176,13 +179,21 @@ export default function Track({ loaderData }: Route.ComponentProps) {
           {comments.map((e) => (
             <div key={e.id} className="mt-5">
               <div className="flex gap-4">
-                <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
+                <div
+                  className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer"
+                  onClick={() => navigate(`/user/${e.userId}`)}
+                />
                 <div>
-                  <div className="text-sm flex gap-1">
+                  <div
+                    className="cursor-pointer text-sm flex gap-1"
+                    onClick={() => navigate(`/user/${e.userId}`)}
+                  >
                     <p className="font-medium">{e.User.name}</p>
                     <p className="text-gray-500">@{e.User.username}</p>
                     <p className="text-gray-500">&#x2022;</p>
-                    <p className="text-gray-500">{e.createdAt.toString()}</p>
+                    <p className="text-gray-500">
+                      {moment(e.createdAt).fromNow()}
+                    </p>
                   </div>
                   <p className="mt-2">{e.content}</p>
                 </div>

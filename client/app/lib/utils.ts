@@ -14,6 +14,24 @@ export const secondsToHMS = (seconds: number) => {
     doubleDigitsOption
   );
 
-  return `${h > 0 ? h + ":" : ""}${h > 0 ? m.toLocaleString("en-US", doubleDigitsOption) : m
-    }:${s}`;
+  return `${h > 0 ? h + ":" : ""}${
+    h > 0 ? m.toLocaleString("en-US", doubleDigitsOption) : m
+  }:${s}`;
+};
+
+export const formatPrice = (priceInCents: number) => {
+  const doubleDigitsOption = {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  };
+
+  const arr = priceInCents.toString().split("");
+  const intPart = arr.slice(0, -2).join("");
+  const decPart = Number(arr.slice(-2).join("")).toLocaleString(
+    "en-US",
+    doubleDigitsOption
+  );
+
+  // "" return false
+  return (intPart ? intPart : "0") + "." + decPart;
 };
