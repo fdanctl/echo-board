@@ -32,6 +32,9 @@ export const formatPrice = (priceInCents: number) => {
     doubleDigitsOption
   );
 
-  // "" return false
-  return (intPart ? intPart : "0") + "." + decPart;
+  // if intPart is "" 'intPart ?'return false
+  const formatedPrice = Number((intPart ? intPart : "0") + "." + decPart);
+
+  // if 0 'formatedPrice ?' returns false
+  return formatedPrice ? formatedPrice : "FREE";
 };
