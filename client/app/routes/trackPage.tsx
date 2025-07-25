@@ -52,6 +52,7 @@ interface Comment {
   User: {
     username: string;
     name: string;
+    avatarUrl: string;
   };
   content: string;
 }
@@ -84,6 +85,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
       User: {
         name: user?.name || "fall",
         username: user?.username || "fall",
+        avatarUrl: "none",
       },
       trackId: track.id,
       content: content,
@@ -148,6 +150,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
                 <div
                   key={e.id}
                   className="px-2 py-0.5 w-fit bg-gray-400 rounded-full"
+                  onClick={() => navigate(`/?tags=[${e.id}]`)}
                 >
                   <p className="text-xs">#{e.name}</p>
                 </div>
@@ -198,13 +201,15 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             <div key={e.id} className="mt-5">
               <div className="flex gap-4">
                 <div
-                  className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer"
-                  onClick={() => navigate(`/user/${e.userId}`)}
-                />
+                  className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer overflow-hidden"
+                  onClick={() => navigate(`/user/${e.User.username}`)}
+                >
+                  <img className="object-cover" src={e.User.avatarUrl} />
+                </div>
                 <div>
                   <div
                     className="cursor-pointer text-sm flex gap-1"
-                    onClick={() => navigate(`/user/${e.userId}`)}
+                    onClick={() => navigate(`/user/${e.User.username}`)}
                   >
                     <p className="font-medium">{e.User.name}</p>
                     <p className="text-gray-500">@{e.User.username}</p>

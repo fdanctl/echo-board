@@ -67,6 +67,7 @@ export interface TrackInfo {
     User: {
       name: string,
       username: string,
+      avatarUrl: string | null,
     },
     id: number;
     userId: string;
@@ -105,6 +106,7 @@ export interface TrackInfo2 { // temp TODO DELETE
     User: {
       name: string,
       username: string,
+      avatarUrl: string | null,
     },
     id: number;
     userId: string;

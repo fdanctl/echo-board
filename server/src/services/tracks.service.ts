@@ -5,7 +5,7 @@ import {
   readOneTrack,
   readManyTracks,
 } from "../models/track.model";
-import { NewTrack, NewTrackComment, PostTrack } from "../types/track";
+import { NewTrack, NewTrackComment, PostTrack, TrackInfo, TrackInfo2 } from "../types/track";
 import ApiError from "../utils/apiError";
 
 export const getManyTracks = async (q?: string) => {
@@ -38,7 +38,7 @@ export const getOneTrack = async (trackId: string, userId?: string) => {
   const isLiked = userId && await readLikedByUser(userId, trackId)
   // console.log(track);
 
-  const theTrack = {
+  const theTrack: TrackInfo2 = {
     id: track.id,
     url: track.trackUrl,
     imgUrl: track.imgUrl,

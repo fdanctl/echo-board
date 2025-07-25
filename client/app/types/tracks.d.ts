@@ -38,6 +38,7 @@ export interface TrackInfo {
     User: {
       name: string;
       username: string;
+      avatarUrl: string;
     };
     id: number;
     userId: string;
