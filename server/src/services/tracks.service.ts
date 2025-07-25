@@ -1,5 +1,5 @@
 import { createOneComment } from "../models/comment.model";
-import { createOneLike, deleteOneLike } from "../models/like.model";
+import { createOneLike, deleteOneLike, readLikedByUser } from "../models/like.model";
 import {
   createOneTrack,
   readOneTrack,
@@ -29,11 +29,13 @@ export const getManyTracks = async () => {
   return theTracks;
 };
 
-export const getOneTrack = async (trackId: string) => {
+export const getOneTrack = async (trackId: string, userId?: string) => {
   const track = await readOneTrack(trackId);
   if (track === null) {
     throw new ApiError(400, "No track found");
   }
+
+  const isLiked = userId && await readLikedByUser(userId, trackId)
   // console.log(track);
 
   const theTrack = {
@@ -49,6 +51,7 @@ export const getOneTrack = async (trackId: string) => {
     price: track.price,
     bpm: track.bpm,
     comments: track.Comment,
+    isLikedByUser: !!isLiked,
   };
 
   return theTrack;

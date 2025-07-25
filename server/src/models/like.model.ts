@@ -20,3 +20,14 @@ export const deleteOneLike = async (data: {
     },
   });
 };
+
+export const readLikedByUser = async (userId: string, trackId: string) => {
+  return await prisma.like.findUnique({
+    where: {
+      userId_trackId: {
+        userId,
+        trackId,
+      },
+    },
+  });
+};

@@ -45,4 +45,5 @@ export interface TrackInfo {
     trackId: string;
     content: string;
   }[];
+  isLikedByUser: boolean;
 }

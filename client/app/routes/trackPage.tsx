@@ -17,6 +17,7 @@ import { refresh } from "~/services/auth";
 import moment from "moment";
 import { formatPrice } from "~/lib/utils";
 import { authenticatedFetch } from "~/services/api";
+import { parse } from "cookie";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -28,9 +29,15 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ params, request }: Route.LoaderArgs) {
   console.log(params.track);
   // TODO
+
+  const cookieHeader = request.headers.get("cookie");
+  const cookies = parse(cookieHeader || "");
+  console.log("accessToken: ", cookies.accessToken);
+  console.log("refresh: ", cookies.refreshToken);
+
   const user = verifyCookie(request);
-  // console.log("user", user);
-  const track = await getTrack(params.track);
+
+  const track = await getTrack(params.track, cookieHeader);
   return {
     user,
     track,
@@ -54,7 +61,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   const [user, setUser] = useState(loaderData.user);
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const navigate = useNavigate();
 
   useEffect(() => {

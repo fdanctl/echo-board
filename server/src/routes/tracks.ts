@@ -9,6 +9,7 @@ import {
   likeTrack,
   unlikeTrack,
 } from "../controllers/track.controller";
+import { authenticateTokenOptional } from "../middleware/authenticateTokenOptional";
 
 export const router = express.Router();
 
@@ -22,7 +23,7 @@ router.post(
   postTrack,
 );
 router.get("/", getTracks);
-router.get("/:id", getTrack);
+router.get("/:id", authenticateTokenOptional, getTrack);
 router.post("/:id/like", authenticateToken, likeTrack);
 router.post("/:id/unlike", authenticateToken, unlikeTrack);
 router.post("/:id/comment", authenticateToken, commentTrack);

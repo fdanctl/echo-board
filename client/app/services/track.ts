@@ -24,9 +24,16 @@ export const getTracks = async () => {
   }
 };
 
-export const getTrack = async (id: string) => {
+export const getTrack = async (id: string, cookie: string | null) => {
+  const headers: HeadersInit = {};
+
+  if (cookie) {
+    headers["cookie"] = cookie;
+  }
+
   const res = await fetch(`${BASE_URL}/tracks/${id}`, {
     method: "GET",
+    headers,
   });
 
   const json = (await res.json()) as ApiResponse<TrackInfo>;

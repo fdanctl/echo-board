@@ -36,13 +36,19 @@ export const getTracks = async (
 };
 
 export const getTrack = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) => {
   const trackId = req.params.id;
   try {
-    const track = await getOneTrack(trackId);
+    let userId = req.user?.sub;
+
+    if (userId && typeof userId !== "string") {
+      userId = undefined;
+    }
+
+    const track = await getOneTrack(trackId, userId);
 
     const response: ApiResponse<TrackInfo> = {
       success: true,
