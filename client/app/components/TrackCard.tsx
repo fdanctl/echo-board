@@ -1,0 +1,42 @@
+import { formatPrice } from "~/lib/utils";
+import { PrimaryBtn } from "./PrimaryBtn";
+import { useNavigate } from "react-router";
+import { Play } from "lucide-react";
+
+interface TrackCardProps {
+  id: string;
+  trackUrl: string;
+  thumbnailUrl: string;
+  title: string;
+  author: string;
+  price: number;
+}
+
+export function TrackCard({
+  id,
+  trackUrl,
+  thumbnailUrl,
+  title,
+  author,
+  price,
+}: TrackCardProps) {
+  const navigate = useNavigate();
+  return (
+    <div
+      className="group hover:bg-accent2/40 border border-transparent hover:border-accent2/45 px-3 py-4 rounded"
+      onClick={() => navigate(`/track/${id}`)}
+    >
+      <div className="w-full aspect-square bg-gray-500 relative rounded-xs">
+        <div className="hidden p-3 rounded-full group-hover:block duration-150 bg-accent2/20 w-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-accent2 hover:bg-accent2/50">
+          <Play fill="#d97e14" />
+        </div>
+      </div>
+      <h6 className="truncate font-medium mt-1">{title}</h6>
+      <p className="text-xs text-gray-600 mb-2">{author}</p>
+      <PrimaryBtn
+        text={`$${formatPrice(price).toString()}`}
+        className="w-full"
+      />
+    </div>
+  );
+}

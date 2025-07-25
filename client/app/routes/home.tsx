@@ -12,6 +12,7 @@ import { refresh } from "~/services/auth";
 import { getTracks } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
 import { useNavigate } from "react-router";
+import { TrackCard } from "~/components/TrackCard";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -57,14 +58,19 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         onChange={() => console.log("nada")}
         placeholder="Search"
       />
-      {track.map((e) => (
-        <div
-          className="border border-lime"
-          onClick={() => navigate(`/track/${e.id}`)}
-        >
-          {e.name}
-        </div>
-      ))}
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1">
+        {track.map((e) => (
+          <TrackCard
+            key={e.id}
+            id={e.id}
+            trackUrl={e.url}
+            thumbnailUrl={e.imgUrl}
+            title={e.name}
+            author={e.author.name}
+            price={e.price}
+          />
+        ))}
+      </div>
     </>
   );
 }

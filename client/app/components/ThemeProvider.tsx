@@ -1,7 +1,7 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { ThemeContext, type ThemeType } from "~/context/ThemeContext";
 
-export default function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<ThemeType>(() => {
     if (typeof window !== "undefined") {
       return (localStorage.theme as ThemeType) || "system";
