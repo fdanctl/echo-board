@@ -1,7 +1,7 @@
 import prisma from "../config/prismaClient";
 import { NewTrack } from "../types/track";
 
-export const readManyTracks = async () => {
+export const readManyTracks = async (q?: string) => {
   return await prisma.track.findMany({
     include: {
       User: {
@@ -35,6 +35,9 @@ export const readManyTracks = async () => {
           Comment: true,
         },
       },
+    },
+    where: {
+      name: { contains: q, mode: "insensitive" },
     },
     orderBy: { publishAt: "desc" },
     take: 20,

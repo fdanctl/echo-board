@@ -23,7 +23,8 @@ export const getTracks = async (
   next: NextFunction,
 ) => {
   try {
-    const track = await getManyTracks();
+    const body: { q?: string } = req.body; // TODO add more filters
+    const track = await getManyTracks(body.q);
 
     const response: ApiResponse<TrackInfo[]> = {
       success: true,

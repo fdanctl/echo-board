@@ -8,8 +8,8 @@ import {
 import { NewTrack, NewTrackComment, PostTrack } from "../types/track";
 import ApiError from "../utils/apiError";
 
-export const getManyTracks = async () => {
-  const tracks = await readManyTracks();
+export const getManyTracks = async (q?: string) => {
+  const tracks = await readManyTracks(q ?? undefined);
   // console.log(track);
   const theTracks = tracks.map((track) => ({
     id: track.id,

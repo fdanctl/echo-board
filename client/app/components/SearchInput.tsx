@@ -1,23 +1,26 @@
 import { Search } from "lucide-react";
+import type { ChangeEvent } from "react";
 
 interface SearchInputProps {
-  value: string;
-  onChange: (value: string) => void;
+  id: string;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
 }
 
 export function SearchInput({
+  id,
   value,
   onChange,
   placeholder = "Search...",
 }: SearchInputProps) {
   return (
     <div className="flex items-center px-3 py-2 border border-gray-200 rounded-2xl">
-        <Search size={18} />
+      <Search size={18} />
       <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        id={id}
+        name={id}
+        type="search"
         placeholder={placeholder}
         className="w-full px-2 py-1 border-none focus:ring-0 text-sm text-gray-700 placeholder-gray-400 bg-transparent outline-none"
       />

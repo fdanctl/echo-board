@@ -11,8 +11,8 @@ import { Navbar } from "~/components/Navbar";
 import { refresh } from "~/services/auth";
 import { getTracks } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
-import { useNavigate } from "react-router";
 import { TrackCard } from "~/components/TrackCard";
+import { Form } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -22,9 +22,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q");
+  console.log(q)
   const user = verifyCookie(request);
   // console.log("user", user);
-  const tracks = await getTracks();
+  const tracks = await getTracks({q: q});
   return {
     user,
     tracks,
@@ -32,10 +35,21 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { theme, changeTheme } = useThemeContext();
+  const { changeTheme } = useThemeContext();
   const track = loaderData.tracks;
-  const navigate = useNavigate();
-
+  //  const searc
+  //
+  //  const [searchParams, setSearchParams] = useSearchParams();
+  //
+  //  setSearchParams((params) => {
+  //    if (q !== undefined) {
+  //      if (filters.q.length === 0) {
+  //        params.delete("q");
+  //      } else {
+  //        params.set("q", filters.q);
+  //      }
+  //    }
+  //
   return (
     <>
       <Navbar />
@@ -53,11 +67,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <PrimaryBtn text="light" onClick={() => changeTheme("light")} />
       <PrimaryBtn text="dark" onClick={() => changeTheme("dark")} />
       <PrimaryBtn text="system" onClick={() => changeTheme("system")} />
-      <SearchInput
-        value=""
-        onChange={() => console.log("nada")}
-        placeholder="Search"
-      />
+      <Form method="get">
+        <SearchInput id="q" placeholder="Search" />
+      </Form>
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-1">
         {track.map((e) => (
           <TrackCard

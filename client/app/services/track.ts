@@ -10,9 +10,13 @@ export const postTrack = async (data: FormData) => {
   });
 };
 
-export const getTracks = async () => {
+export const getTracks = async (filters: { q: string | null }) => {
   const res = await fetch(`${BASE_URL}/tracks`, {
-    method: "GET",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(filters),
   });
 
   const json = (await res.json()) as ApiResponse<TrackInfo[]>;
