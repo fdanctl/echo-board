@@ -204,7 +204,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
                   className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer overflow-hidden"
                   onClick={() => navigate(`/user/${e.User.username}`)}
                 >
-                  <img className="object-cover" src={e.User.avatarUrl} />
+                  <img className="object-cover" src={e.User.avatarUrl ?? undefined} />
                 </div>
                 <div>
                   <div
