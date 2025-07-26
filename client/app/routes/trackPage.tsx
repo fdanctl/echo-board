@@ -11,8 +11,8 @@ import {
   unlikeTrack,
 } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
-import { useEffect, useState, type ChangeEvent } from "react";
-import { Form, useNavigate } from "react-router";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { Form, redirect, useNavigate } from "react-router";
 import { refresh } from "~/services/auth";
 import moment from "moment";
 import { formatPrice } from "~/lib/utils";
@@ -29,13 +29,15 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ params, request }: Route.LoaderArgs) {
   console.log(params.track);
   // TODO
+  const url = new URL(request.url);
 
   const cookieHeader = request.headers.get("cookie");
-  const cookies = parse(cookieHeader || "");
-  console.log("accessToken: ", cookies.accessToken);
-  console.log("refresh: ", cookies.refreshToken);
 
   const user = verifyCookie(request);
+  console.log("user", user);
+  if (!user) {
+    return redirect(`/api/auth/refresh?redirect=${url.href}`);
+  }
 
   const track = await getTrack(params.track, cookieHeader);
   return {
@@ -59,24 +61,25 @@ interface Comment {
 
 export default function Track({ loaderData }: Route.ComponentProps) {
   const track = loaderData.track;
-  const [user, setUser] = useState(loaderData.user);
+  const user = loaderData.user;
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const newUser = await refresh();
-      setUser(newUser);
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const newUser = await refresh();
+  //     setUser(newUser);
+  //   };
 
-    if (!user) {
-      fetchUser();
-    }
-  }, []);
+  //   if (!user) {
+  //     fetchUser();
+  //   }
+  // }, []);
 
-  const handleAddComment = () => {
+  const handleAddComment = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // optimistic add
     const newComment: Comment = {
       id: 1,
@@ -185,7 +188,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
           </div>
           <div className="flex gap-2 items-center">
             <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
-            <Form className="w-full" onSubmit={handleAddComment}>
+            <form className="w-full" onSubmit={handleAddComment}>
               <Input
                 id="comment"
                 placeholder="Write a comment"
@@ -195,7 +198,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
                   setContent(e.target.value)
                 }
               />
-            </Form>
+            </form>
           </div>
           {comments.map((e) => (
             <div key={e.id} className="mt-5">
@@ -204,7 +207,10 @@ export default function Track({ loaderData }: Route.ComponentProps) {
                   className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer overflow-hidden"
                   onClick={() => navigate(`/user/${e.User.username}`)}
                 >
-                  <img className="object-cover" src={e.User.avatarUrl ?? undefined} />
+                  <img
+                    className="object-cover"
+                    src={e.User.avatarUrl ?? undefined}
+                  />
                 </div>
                 <div>
                   <div
