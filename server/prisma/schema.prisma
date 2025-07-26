@@ -136,8 +136,6 @@ model Comment {
     trackId   String
     content   String
     createdAt DateTime @default(now())
-
-    @@unique([userId, trackId])
 }
 
 model Follow {
