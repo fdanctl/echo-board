@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 import type { ChangeEvent } from "react";
 
 interface SearchInputProps {
-  id: string;
+  id?: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;

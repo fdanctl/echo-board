@@ -232,7 +232,7 @@ async function main() {
       imgUrl: "/upload/track/[8yk-0oe0LTM].jpg",
       userId: producerX.id,
       genreId: 1,
-      moodId: 1,
+      moodId: 6,
       trackTypeId: 1,
       keyId: 10,
       bpm: 140,

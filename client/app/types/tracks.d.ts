@@ -49,3 +49,12 @@ export interface TrackInfo {
   }[];
   isLikedByUser: boolean;
 }
+
+export interface Filters {
+  q: string;
+  trackTypes: number[];
+  moods: number[];
+  genres: number[];
+  tags: number[];
+  keys: number[];
+}

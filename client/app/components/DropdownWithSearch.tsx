@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import { SearchInput } from "./SearchInput";
 import { ChevronDown } from "lucide-react";
 import type { Options } from "~/types/trackOptions";
@@ -7,30 +7,32 @@ interface DropdownWithSearchProps {
   id: string;
   label: string;
   options: Options[];
-  onChange?: (selected: number[]) => void;
+  initialSelected?: number[];
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function DropdownWithSearch({
   id,
   label,
   options,
+  initialSelected,
   onChange,
 }: DropdownWithSearchProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<number[]>(initialSelected ?? []);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleSelect = (option: Options) => {
+  const handleSelect = (option: Options, e: ChangeEvent<HTMLInputElement>) => {
     console.log(option);
     const exists = selected.some((item) => item === option.id);
     const newSelected = exists
       ? selected.filter((item) => item !== option.id)
       : [...selected, option.id];
     setSelected(newSelected);
-    onChange?.(newSelected);
+    onChange && onChange(e);
   };
 
   const filteredOptions = options.filter((o) =>
@@ -68,7 +70,6 @@ export function DropdownWithSearch({
         <div className="absolute mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
           <div className="border-b border-gray-100 px-2 py-2">
             <SearchInput
-              id="tag_search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
@@ -87,7 +88,7 @@ export function DropdownWithSearch({
                     checked={selected.some((item) => item === option.id)}
                     value={option.id}
                     id={option.name}
-                    onChange={() => handleSelect(option)}
+                    onChange={(e) => handleSelect(option, e)}
                     className="text-blue-600 rounded border-gray-300 focus:ring-blue-500 mr-3"
                   />
                   <label

@@ -11,6 +11,7 @@ import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Form } from "react-router";
 import type { TrackForm } from "~/types/tracks";
 import { postTrack } from "~/services/track";
+import { getTrackOptions } from "~/services/trackOptions";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,16 +21,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  const res = await fetch(`${BASE_URL}/track-options`);
-  console.log("server loader");
-
-  const json = (await res.json()) as ApiResponse<TrackOptions>;
-
-  if (json.success) {
-    return json.data;
-  } else {
-    throw new Error(`Failed to fetch: ${json.error}`);
-  }
+  return await getTrackOptions()
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
@@ -172,9 +164,6 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             id="tags"
             label="Tags"
             options={loaderData.tag}
-            onChange={(selected: number[]) =>
-              setForm((ps) => ({ ...ps, tags: selected }))
-            }
           />
           <Input
             type="text"

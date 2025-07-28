@@ -1,6 +1,6 @@
 import type { ApiResponse } from "~/types/api";
 import { BASE_URL, BASE_URL_CLIENT } from "./api";
-import type { TrackInfo } from "~/types/tracks";
+import type { Filters, TrackInfo } from "~/types/tracks";
 
 export const postTrack = async (data: FormData) => {
   return await fetch(`${BASE_URL_CLIENT}/tracks/new`, {
@@ -10,7 +10,7 @@ export const postTrack = async (data: FormData) => {
   });
 };
 
-export const getTracks = async (filters: { q: string | null }) => {
+export const getTracks = async (filters: Filters) => {
   const res = await fetch(`${BASE_URL}/tracks`, {
     method: "POST",
     headers: {
