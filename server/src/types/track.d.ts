@@ -66,10 +66,10 @@ export interface TrackInfo {
   bpm: number;
   comments: {
     User: {
-      name: string,
-      username: string,
-      avatarUrl: string | null,
-    },
+      name: string;
+      username: string;
+      avatarUrl: string | null;
+    };
     id: number;
     userId: string;
     createdAt: Date;
@@ -78,7 +78,8 @@ export interface TrackInfo {
   }[];
 }
 
-export interface TrackInfo2 { // temp TODO DELETE
+export interface TrackInfo2 {
+  // temp TODO DELETE
   id: string;
   url: string;
   imgUrl: string;
@@ -106,10 +107,10 @@ export interface TrackInfo2 { // temp TODO DELETE
   bpm: number;
   comments: {
     User: {
-      name: string,
-      username: string,
-      avatarUrl: string | null,
-    },
+      name: string;
+      username: string;
+      avatarUrl: string | null;
+    };
     id: number;
     userId: string;
     createdAt: Date;
@@ -125,4 +126,13 @@ export interface TrackCommentReq {
 export interface NewTrackComment extends TrackCommentReq {
   userId: string;
   trackId: string;
+}
+
+export interface Filters {
+  q: string;
+  trackTypes: number[];
+  moods: number[];
+  genres: number[];
+  tags: number[];
+  keys: number[];
 }

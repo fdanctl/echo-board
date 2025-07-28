@@ -11,6 +11,7 @@ import {
   readProducerTracks,
 } from "../models/track.model";
 import {
+  Filters,
   NewTrack,
   NewTrackComment,
   PostTrack,
@@ -19,8 +20,8 @@ import {
 } from "../types/track";
 import ApiError from "../utils/apiError";
 
-export const getManyTracks = async (q?: string) => {
-  const tracks = await readManyTracks(q ?? undefined);
+export const getManyTracks = async (f: Filters) => {
+  const tracks = await readManyTracks(f ?? undefined);
   // console.log(track);
   const theTracks = tracks.map((track) => ({
     id: track.id,

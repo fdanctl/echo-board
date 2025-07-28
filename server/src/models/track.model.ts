@@ -1,7 +1,7 @@
 import prisma from "../config/prismaClient";
-import { NewTrack } from "../types/track";
+import { Filters, NewTrack } from "../types/track";
 
-export const readManyTracks = async (q?: string) => {
+export const readManyTracks = async (f: Filters) => {
   return await prisma.track.findMany({
     include: {
       User: {
@@ -39,7 +39,18 @@ export const readManyTracks = async (q?: string) => {
       },
     },
     where: {
-      name: { contains: q, mode: "insensitive" },
+      name: { contains: f.q, mode: "insensitive" },
+      trackTypeId: f.trackTypes.length ? { in: f.trackTypes } : undefined,
+      genreId: f.genres.length ? { in: f.genres } : undefined,
+      moodId: f.moods.length ? { in: f.moods } : undefined,
+      keyId: f.keys.length ? { in: f.keys } : undefined,
+      Tag: f.tags.length
+        ? {
+          some: {
+            id: { in: f.tags },
+          },
+        }
+        : undefined,
     },
     orderBy: { publishAt: "desc" },
     take: 20,

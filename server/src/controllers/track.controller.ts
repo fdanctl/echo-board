@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import { ApiResponse, AuthenticatedRequest } from "../types/api";
 import {
+  Filters,
   PostTrack,
   PostTrackReq,
   PostTrackRes,
@@ -24,8 +25,8 @@ export const getTracks = async (
   next: NextFunction,
 ) => {
   try {
-    const body: { q?: string } = req.body; // TODO add more filters
-    const track = await getManyTracks(body.q);
+    const body: Filters = req.body;
+    const track = await getManyTracks(body);
 
     const response: ApiResponse<TrackInfo[]> = {
       success: true,
