@@ -19,9 +19,5 @@ export const getUserInfo = async (username: string) => {
     plays: user.Track.reduce((acc, play) => acc + play._count.TrackPlay, 0),
   };
 
-  if (user._count.Track > 0) {
-    // TODO all tracks likes and plays
-  }
-
   return userInfo;
 };

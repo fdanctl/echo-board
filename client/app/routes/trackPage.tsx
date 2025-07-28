@@ -28,7 +28,6 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  console.log(params.track);
   // TODO
   const url = new URL(request.url);
 
@@ -146,7 +145,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
                 <Play />
               </div>
               <div>
-                <p className="text-xl font-medium whitespace-nowrap text-ellipsis">
+                <p className="text-xl font-medium truncate">
                   {track.name}
                 </p>
                 <p
@@ -180,7 +179,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
               {track.tags.map((e) => (
                 <div
                   key={e.id}
-                  className="px-2 py-0.5 w-fit bg-gray-400 rounded-full"
+                  className="whitespace-nowrap px-2 py-0.5 w-fit bg-gray-400 rounded-full"
                   onClick={() => navigate(`/?tags=[${e.id}]`)}
                 >
                   <p className="text-xs">#{e.name}</p>

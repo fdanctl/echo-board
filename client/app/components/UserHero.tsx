@@ -16,7 +16,7 @@ export function UserHero({
   plays,
 }: UserHeroProps) {
   return (
-    <div className="bg-gray-300 flex justify-between w-full items-center">
+    <div className="bg-gray-300 p-4 flex justify-between w-full items-center">
       <div className="text-center flex flex-col items-center">
         <div className="aspect-square w-20 h-20 rounded-full bg-gray-400 cursor-pointer overflow-hidden">
           <img className="object-cover" src={undefined} />

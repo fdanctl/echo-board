@@ -20,7 +20,9 @@ export function SearchInput({
       <input
         id={id}
         name={id}
+        value={value}
         type="search"
+        onChange={onChange}
         placeholder={placeholder}
         className="w-full px-2 py-1 border-none focus:ring-0 text-sm text-gray-700 placeholder-gray-400 bg-transparent outline-none"
       />

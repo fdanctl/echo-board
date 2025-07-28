@@ -1,11 +1,22 @@
 import { createOneComment } from "../models/comment.model";
-import { createOneLike, deleteOneLike, readLikedByUser } from "../models/like.model";
+import {
+  createOneLike,
+  deleteOneLike,
+  readLikedByUser,
+} from "../models/like.model";
 import {
   createOneTrack,
   readOneTrack,
   readManyTracks,
+  readProducerTracks,
 } from "../models/track.model";
-import { NewTrack, NewTrackComment, PostTrack, TrackInfo, TrackInfo2 } from "../types/track";
+import {
+  NewTrack,
+  NewTrackComment,
+  PostTrack,
+  TrackInfo,
+  TrackInfo2,
+} from "../types/track";
 import ApiError from "../utils/apiError";
 
 export const getManyTracks = async (q?: string) => {
@@ -35,7 +46,7 @@ export const getOneTrack = async (trackId: string, userId?: string) => {
     throw new ApiError(400, "No track found");
   }
 
-  const isLiked = userId && await readLikedByUser(userId, trackId)
+  const isLiked = userId && (await readLikedByUser(userId, trackId));
   // console.log(track);
 
   const theTrack: TrackInfo2 = {
@@ -55,6 +66,29 @@ export const getOneTrack = async (trackId: string, userId?: string) => {
   };
 
   return theTrack;
+};
+
+export const getProducerTracks = async (producerUsername: string) => {
+  const tracks = await readProducerTracks(producerUsername);
+  // console.log(track);
+  const theTracks = tracks.map((track) => ({
+    id: track.id,
+    url: track.trackUrl,
+    imgUrl: track.imgUrl,
+    name: track.name,
+    genre: track.genre,
+    tags: track.Tag,
+    author: track.User,
+    stats: track._count,
+    publishAt: track.publishAt,
+    price: track.price,
+    bpm: track.bpm,
+    comments: track.Comment,
+  }));
+
+  console.log("the tracks", theTracks)
+
+  return theTracks;
 };
 
 export const insertOneTrack = async (
@@ -101,7 +135,7 @@ export const insertOneComment = async (data: NewTrackComment) => {
 export const likeOneTrack = async (data: {
   userId: string;
   trackId: string;
-}) => { 
+}) => {
   const track = await readOneTrack(data.trackId);
 
   if (!track) {
@@ -119,7 +153,7 @@ export const likeOneTrack = async (data: {
 export const unlikeOneTrack = async (data: {
   userId: string;
   trackId: string;
-}) => { 
+}) => {
   const track = await readOneTrack(data.trackId);
 
   if (!track) {

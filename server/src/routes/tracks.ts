@@ -8,6 +8,7 @@ import {
   commentTrack,
   likeTrack,
   unlikeTrack,
+  getUserTracks,
 } from "../controllers/track.controller";
 import { authenticateTokenOptional } from "../middleware/authenticateTokenOptional";
 
@@ -24,6 +25,7 @@ router.post(
 );
 router.post("/", getTracks);
 router.get("/:id", authenticateTokenOptional, getTrack);
+router.get("/user/:username", getUserTracks);
 router.post("/:id/like", authenticateToken, likeTrack);
 router.post("/:id/unlike", authenticateToken, unlikeTrack);
 router.post("/:id/comment", authenticateToken, commentTrack);

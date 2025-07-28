@@ -46,6 +46,51 @@ export const readManyTracks = async (q?: string) => {
   });
 };
 
+export const readProducerTracks = async (username: string) => {
+  return await prisma.track.findMany({
+    include: {
+      User: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+        },
+      },
+      trackType: true,
+      genre: true,
+      Mood: true,
+      Tag: true,
+      Comment: {
+        include: {
+          User: {
+            select: {
+              name: true,
+              username: true,
+              avatarUrl: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 20,
+      },
+      _count: {
+        select: {
+          Like: true,
+          TrackPlay: true,
+          Comment: true,
+        },
+      },
+    },
+    where: {
+      User: { username: username },
+    },
+    orderBy: { publishAt: "desc" },
+    take: 20,
+  });
+};
+
 export const readOneTrack = async (id: string) => {
   return await prisma.track.findUnique({
     include: {

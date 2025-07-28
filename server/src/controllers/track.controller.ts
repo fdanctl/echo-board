@@ -15,6 +15,7 @@ import {
   insertOneComment,
   likeOneTrack,
   unlikeOneTrack,
+  getProducerTracks,
 } from "../services/tracks.service";
 
 export const getTracks = async (
@@ -54,6 +55,25 @@ export const getTrack = async (
     const response: ApiResponse<TrackInfo> = {
       success: true,
       data: track,
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserTracks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const username = req.params.username;
+  try {
+    const tracks = await getProducerTracks(username);
+
+    const response: ApiResponse<TrackInfo[]> = {
+      success: true,
+      data: tracks,
     };
     res.status(200).json(response);
   } catch (error) {

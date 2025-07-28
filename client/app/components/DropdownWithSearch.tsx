@@ -68,8 +68,9 @@ export function DropdownWithSearch({
         <div className="absolute mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-10">
           <div className="border-b border-gray-100 px-2 py-2">
             <SearchInput
+              id="tag_search"
               value={search}
-              onChange={setSearch}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
             />
           </div>
