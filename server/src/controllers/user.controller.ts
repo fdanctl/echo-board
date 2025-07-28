@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getUserInfo } from "../services/user.service";
 import { ApiResponse } from "../types/api";
+import { UserInfo } from "../types/user";
 
 export const getOneUser = async (
   req: Request,
@@ -11,7 +12,7 @@ export const getOneUser = async (
   try {
     const user = await getUserInfo(username);
 
-    const response: ApiResponse<any> = { // TODO change
+    const response: ApiResponse<UserInfo> = {
       success: true,
       data: user,
     };

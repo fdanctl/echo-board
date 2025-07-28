@@ -8,13 +8,15 @@ export const getUserInfo = async (username: string) => {
     throw new ApiError(400, "No user with that username found");
   }
 
+  console.log("userInfo", user)
+
   const userInfo: UserInfo = {
     name: user.name,
     username: user.username,
     location: user.location,
-    tracks: user._count.Track,
-    likes: 0,
-    plays: 0,
+    followers: 0,
+    tracksN: user._count.Track,
+    plays: user.Track.reduce((acc, play) => acc + play._count.TrackPlay, 0),
   };
 
   if (user._count.Track > 0) {

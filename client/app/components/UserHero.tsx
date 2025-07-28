@@ -1,14 +1,28 @@
 import { Instagram, Twitter, Youtube } from "lucide-react";
 
-export function UserHero() {
+interface UserHeroProps {
+  name: string;
+  location: string;
+  followers: number;
+  plays: number;
+  tracksN: number;
+}
+
+export function UserHero({
+  name,
+  location,
+  followers,
+  tracksN,
+  plays,
+}: UserHeroProps) {
   return (
     <div className="bg-gray-300 flex justify-between w-full items-center">
-      <div className="text-center">
+      <div className="text-center flex flex-col items-center">
         <div className="aspect-square w-20 h-20 rounded-full bg-gray-400 cursor-pointer overflow-hidden">
           <img className="object-cover" src={undefined} />
         </div>
-        <h5 className="text-xl font-medium">[Name]</h5>
-        <p className="text-gray-500">[Location]</p>
+        <h5 className="text-xl font-medium">{name}</h5>
+        <p className="text-gray-500">{location}</p>
       </div>
       <div className="grid grid-cols-2 gap-x-2 gap-y-4">
         <div className="font-medium text-right">
@@ -17,9 +31,9 @@ export function UserHero() {
           <p>Tracks:</p>
         </div>
         <div>
-          <p>[999]</p>
-          <p>[999]</p>
-          <p>[999]</p>
+          <p>{followers}</p>
+          <p>{tracksN}</p>
+          <p>{plays}</p>
         </div>
         <div className="flex justify-center gap-2 col-span-2">
           <Instagram />

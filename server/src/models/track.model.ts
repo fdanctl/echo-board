@@ -8,6 +8,7 @@ export const readManyTracks = async (q?: string) => {
         select: {
           id: true,
           name: true,
+          username: true,
         },
       },
       trackType: true,
@@ -52,6 +53,7 @@ export const readOneTrack = async (id: string) => {
         select: {
           id: true,
           name: true,
+          username: true,
         },
       },
       trackType: true,

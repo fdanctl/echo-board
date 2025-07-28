@@ -26,8 +26,18 @@ export const readOneUserByUsername = async (username: string) => {
       _count: {
         select: {
           Track: true,
-        }
-      }
+          Follower: true,
+        },
+      },
+      Track: {
+        include: {
+          _count: {
+            select: {
+              TrackPlay: true,
+            },
+          },
+        },
+      },
     },
   });
 };

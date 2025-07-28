@@ -54,6 +54,7 @@ export interface TrackInfo {
   author: {
     id: string;
     name: string;
+    username: string;
   };
   stats: {
     TrackPlay: number;
@@ -93,6 +94,7 @@ export interface TrackInfo2 { // temp TODO DELETE
   author: {
     id: string;
     name: string;
+    username: string;
   };
   stats: {
     TrackPlay: number;

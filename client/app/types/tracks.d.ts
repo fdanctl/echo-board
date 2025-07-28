@@ -25,6 +25,7 @@ export interface TrackInfo {
   author: {
     id: string;
     name: string;
+    username: string;
   };
   stats: {
     TrackPlay: number;
