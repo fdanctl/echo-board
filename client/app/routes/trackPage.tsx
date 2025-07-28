@@ -179,8 +179,8 @@ export default function Track({ loaderData }: Route.ComponentProps) {
               {track.tags.map((e) => (
                 <div
                   key={e.id}
-                  className="whitespace-nowrap px-2 py-0.5 w-fit bg-gray-400 rounded-full"
-                  onClick={() => navigate(`/?tags=[${e.id}]`)}
+                  className="whitespace-nowrap px-2 py-0.5 w-fit bg-gray-400 rounded-full cursor-pointer"
+                  onClick={() => navigate(`/?tags=${e.id}`)}
                 >
                   <p className="text-xs">#{e.name}</p>
                 </div>
