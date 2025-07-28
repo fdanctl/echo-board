@@ -125,7 +125,7 @@ export const refreshAccessToken = async (token: string) => {
     }
 
     const newAccessToken = genJwtTokken(user.sub, user.username, "access", false);
-    return { newAccessToken, user };
+    return { newAccessToken };
   } catch (error) {
     throw new ApiError(403, "Invalid or expired token");
   }

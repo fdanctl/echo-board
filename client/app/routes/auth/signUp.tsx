@@ -8,7 +8,7 @@ import { signUp } from "~/services/auth";
 import type { ApiResponse } from "~/types/api";
 import type { AuthResponse, Credentials, NewUser } from "~/types/auth";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Register" },
     { name: "description", content: "Sign up to start selling" },
@@ -17,7 +17,7 @@ export function meta({}: Route.MetaArgs) {
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
-  const newUser: NewUser= {
+  const newUser: NewUser = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
     name: formData.get("name") as string,
@@ -37,7 +37,7 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
   const res = await signUp(newUser);
 
   if (res.success) {
-    // TODO redirect to dashboard
+    localStorage.setItem("user", JSON.stringify(res.data));
     return redirect("/");
   }
   return res;
@@ -56,7 +56,7 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
           type="email"
           placeholder="Email"
           required={true}
-          // errorMessage="Not a valid email"
+        // errorMessage="Not a valid email"
         />
         <Input
           label="Name"

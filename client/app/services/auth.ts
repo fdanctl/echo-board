@@ -55,8 +55,9 @@ export const login = async (c: Credentials) => {
 };
 
 export const logout = async () => {
+  localStorage.removeItem("user");
   try {
-    const response = await fetch(`${BASE_URL}/auth/logout`, {
+    const response = await fetch(`${BASE_URL_CLIENT}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

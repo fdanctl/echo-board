@@ -7,7 +7,9 @@ export interface Credentials {
 
 export interface AuthResponse {
   id: string;
-  email: string;
+  name: string;
+  username: string;
+  avatarUrl: string | null;
 }
 
 export interface NewUser extends Credentials {

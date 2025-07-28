@@ -113,7 +113,7 @@ async function main() {
     {
       name: "Daniel",
       username: "fdanctl",
-      // avatarUrl: "https://i.pravatar.cc/150?img=1",
+      avatarUrl: "https://i.imgur.com/ziQkbRB.jpeg",
       email: "test@test.com",
       password: hashedPassword,
       location: "Lisbon",

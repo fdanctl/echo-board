@@ -43,8 +43,9 @@ export const register = async (
       success: true,
       data: {
         id: result.user.id,
-        email: result.user.email,
+        name: result.user.name,
         username: result.user.username,
+        avatarUrl: result.user.avatarUrl,
       },
     };
     console.log("at: ", result.accessToken);
@@ -85,8 +86,9 @@ export const login = async (
       success: true,
       data: {
         id: result.user.id,
-        email: result.user.email,
+        name: result.user.name,
         username: result.user.username,
+        avatarUrl: result.user.avatarUrl,
       },
     };
     res
@@ -136,8 +138,7 @@ export const refresh = async (
 
     res
       .cookie("accessToken", newAccessToken.newAccessToken, accessCookieOptions)
-      .send(200)
-      .json(newAccessToken.user);
+      .sendStatus(200)
   } catch (error) {
     next(error);
   }

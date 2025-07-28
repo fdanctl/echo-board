@@ -8,7 +8,7 @@ import { Anchor } from "~/components/Anchor";
 import { login } from "~/services/auth";
 import type { Credentials } from "~/types/auth";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Login" },
     { name: "description", content: "Login to start selling" },
@@ -22,13 +22,13 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
     password: formData.get("password") as string,
   };
 
-  const res = await login(credentials)
+  const res = await login(credentials);
 
-   if (res.success) {
-     // TODO redirect to dashboard
-     return redirect("/");
+  if (res.success) {
+    localStorage.setItem("user", JSON.stringify(res.data));
+    return redirect("/");
   }
-  return res
+  return res;
 }
 
 export default function Login({ actionData }: Route.ComponentProps) {
@@ -48,7 +48,7 @@ export default function Login({ actionData }: Route.ComponentProps) {
           type="email"
           placeholder="Email"
           required={true}
-          //errorMessage="Not a valid email"
+        //errorMessage="Not a valid email"
         />
         <Input
           label="Password"

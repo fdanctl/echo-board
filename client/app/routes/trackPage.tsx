@@ -13,13 +13,14 @@ import {
 import { verifyCookie } from "~/lib/validators";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Form, redirect, useNavigate } from "react-router";
-import { refresh } from "~/services/auth";
+import { logout, refresh } from "~/services/auth";
 import moment from "moment";
 import { formatPrice } from "~/lib/utils";
 import { authenticatedFetch } from "~/services/api";
 import { parse } from "cookie";
+import type { AuthResponse } from "~/types/auth";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "New React Router App" },
     { name: "description", content: "Welcome to React Router!" },
@@ -33,15 +34,17 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const cookieHeader = request.headers.get("cookie");
 
-  const user = verifyCookie(request);
-  console.log("user", user);
-  if (!user) {
+  let decoded;
+  if (cookieHeader) {
+    decoded = verifyCookie(request);
+  }
+  console.log("decoded", decoded);
+  if (cookieHeader && !decoded) {
     return redirect(`/api/auth/refresh?redirect=${url.href}`);
   }
 
   const track = await getTrack(params.track, cookieHeader);
   return {
-    user,
     track,
   };
 }
@@ -54,18 +57,32 @@ interface Comment {
   User: {
     username: string;
     name: string;
-    avatarUrl: string;
+    avatarUrl: string | null;
   };
   content: string;
 }
 
 export default function Track({ loaderData }: Route.ComponentProps) {
   const track = loaderData.track;
-  const user = loaderData.user;
+  const [user, setUser] = useState<AuthResponse | null>(null); // TODO make context
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userStr = localStorage.getItem("user");
+
+    if (userStr) {
+      try {
+        const authRes = JSON.parse(userStr) as AuthResponse;
+        setUser(authRes);
+      } catch (e) {
+        localStorage.removeItem("user");
+        logout();
+      }
+    }
+  }, []);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -81,31 +98,39 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   const handleAddComment = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // optimistic add
-    const newComment: Comment = {
-      id: 1,
-      userId: user?.sub ?? "fall",
-      createdAt: new Date(),
-      User: {
-        name: user?.name || "fall",
-        username: user?.username || "fall",
-        avatarUrl: "none",
-      },
-      trackId: track.id,
-      content: content,
-    };
-    setComments((ps) => ps.concat(newComment));
-    authenticatedFetch(() => commentTrack(content, track.id));
-    setContent("");
+    if (user) {
+      const newComment: Comment = {
+        id: comments.length + 1,
+        userId: user?.id ?? "fall",
+        createdAt: new Date(),
+        User: {
+          name: user?.name || "fall",
+          username: user?.username || "fall",
+          avatarUrl: user?.avatarUrl || null,
+        },
+        trackId: track.id,
+        content: content,
+      };
+      setComments((ps) => [newComment].concat(ps));
+      authenticatedFetch(() => commentTrack(content, track.id));
+      setContent("");
+    } else {
+      console.log("please login");
+    }
   };
 
   const handleLike = () => {
     // optimistic add
-    const cb = isLiked
-      ? () => unlikeTrack(track.id)
-      : () => likeTrack(track.id);
+    if (user) {
+      const cb = isLiked
+        ? () => unlikeTrack(track.id)
+        : () => likeTrack(track.id);
 
-    setIsLiked((ps) => !ps);
-    authenticatedFetch<{ message: string }>(cb);
+      setIsLiked((ps) => !ps);
+      authenticatedFetch<{ message: string }>(cb);
+    } else {
+      console.log("please login");
+    }
   };
 
   return (
@@ -187,7 +212,12 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             <p className="text-lg">Sorted by: newest</p>
           </div>
           <div className="flex gap-2 items-center">
-            <div className="aspect-square w-10 h-10 rounded-full bg-gray-400" />
+            <div className="aspect-square w-10 h-10 rounded-full bg-gray-400 cursor-pointer overflow-hidden">
+              <img
+                className="object-cover"
+                src={user?.avatarUrl ?? undefined}
+              />
+            </div>
             <form className="w-full" onSubmit={handleAddComment}>
               <Input
                 id="comment"

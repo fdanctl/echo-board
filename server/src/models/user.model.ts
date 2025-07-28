@@ -9,6 +9,7 @@ export const createOneUser = async (data: NewUser) => {
       email: true,
       name: true,
       username: true,
+      avatarUrl: true,
       createdAt: true,
     },
   });
