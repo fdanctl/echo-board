@@ -113,8 +113,8 @@ model TrackPlay {
     id       Int      @id @default(autoincrement())
     Track    Track    @relation(fields: [trackId], references: [id])
     trackId  String
-    User     User     @relation(fields: [userId], references: [id])
-    userId   String
+    User     User?    @relation(fields: [userId], references: [id])
+    userId   String?
     playedAt DateTime @default(now())
 }
 

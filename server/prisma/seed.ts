@@ -292,7 +292,7 @@ async function main() {
       bpm: 145,
       price: 4499,
       Tag: {
-        connect: [16, 17].map((tag) => ({ id: tag })),
+        connect: [12, 11].map((tag) => ({ id: tag })),
       },
     },
   });

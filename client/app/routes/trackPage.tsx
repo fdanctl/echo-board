@@ -19,6 +19,7 @@ import { formatPrice } from "~/lib/utils";
 import { authenticatedFetch } from "~/services/api";
 import { parse } from "cookie";
 import type { AuthResponse } from "~/types/auth";
+import { useTrackContext } from "~/context/TrackContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -67,6 +68,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
+  const { changeCurrTrack } = useTrackContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -134,22 +136,22 @@ export default function Track({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <Navbar />
       {/* HERO */}
       <div className="flex bg-background dark:bg-background-dark justify-between mb-6 p-4">
         <div className="flex gap-3">
-          <div className="aspect-square h-50 bg-gray-400 rounded-xs" >
-            <img className="object-cover w-full h-full" src={`http://localhost:4000${track.imgUrl}`}/>
+          <div className="aspect-square h-50 bg-gray-400 rounded-xs">
+            <img
+              className="object-cover w-full h-full"
+              src={`http://localhost:4000${track.imgUrl}`}
+            />
           </div>
           <div className="flex flex-col justify-between">
             <div className="flex gap-2 mt-3">
               <div className="aspect-square text-accent2 flex items-center justify-center bg-gray-400 w-fit h-fit p-3 rounded-full">
-                <Play />
+                <Play onClick={() => changeCurrTrack(track)} />
               </div>
               <div>
-                <p className="text-xl font-medium truncate">
-                  {track.name}
-                </p>
+                <p className="text-xl font-medium truncate">{track.name}</p>
                 <p
                   className="text-gray-600 whitespace-nowrap cursor-pointer"
                   onClick={() => navigate(`/user/${track.author.username}`)}

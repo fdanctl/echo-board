@@ -15,6 +15,7 @@ import { TrackCard } from "~/components/TrackCard";
 import { Form, useSubmit } from "react-router";
 import { getTrackOptions } from "~/services/trackOptions";
 import { useState } from "react";
+import { useTrackContext } from "~/context/TrackContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -55,10 +56,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const trackOpts = loaderData.trackOpts;
   const submit = useSubmit();
   const initialForm = loaderData.form;
+  const { changeCurrTrack } = useTrackContext();
 
   return (
     <>
-      <Navbar />
       <PrimaryBtn text="primary" />
       <PrimaryBtn text="Refresh" onClick={() => refresh()} />
       <SecundaryBtn text="secundary" />
@@ -116,6 +117,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             title={e.name}
             author={e.author.name}
             price={e.price}
+            onPlayClick={() => changeCurrTrack(e)}
           />
         ))}
       </div>
