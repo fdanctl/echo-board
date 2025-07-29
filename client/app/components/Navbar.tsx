@@ -13,7 +13,7 @@ export function Navbar() {
   const navigate = useNavigate();
   const { user } = useUserContext();
   const [showCart, setShowCart] = useState(false);
-  const {cart} = useCartContext();
+  const { cart } = useCartContext();
 
   return (
     <>
@@ -38,11 +38,19 @@ export function Navbar() {
           ) : (
             <PrimaryBtn text="Upload Track" />
           )}
-          <div className="text-white" onClick={() => setShowCart((ps) => !ps)}>
+          <div
+            className="text-white relative"
+            onClick={() => setShowCart((ps) => !ps)}
+          >
+            {cart.length > 0 && (
+              <div className="rounded-full aspect-square absolute bg-accent2 dark:bg-accent2-dark flex justify-center items-center -top-3 -right-2 h-5 w-5 p-0.5">
+                <p>{cart.length}</p>
+              </div>
+            )}
             <ShoppingCart size={25} />
           </div>
         </div>
-        {showCart && <CartToast cartItems={cart}/>}
+        {showCart && <CartToast cartItems={cart} />}
       </nav>
     </>
   );

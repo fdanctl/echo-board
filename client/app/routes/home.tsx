@@ -62,13 +62,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   return (
     <>
-      <PrimaryBtn text="primary" />
-      <PrimaryBtn text="Refresh" onClick={() => refresh()} />
-      <SecundaryBtn text="secundary" />
-      <PrimaryBtn text="light" onClick={() => changeTheme("light")} />
-      <PrimaryBtn text="dark" onClick={() => changeTheme("dark")} />
-      <PrimaryBtn text="system" onClick={() => changeTheme("system")} />
-
       <Form method="get">
         <SearchInput id="q" placeholder="Search" />
         <div className="flex">

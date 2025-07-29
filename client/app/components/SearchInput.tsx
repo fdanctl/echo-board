@@ -15,7 +15,7 @@ export function SearchInput({
   placeholder = "Search...",
 }: SearchInputProps) {
   return (
-    <div className="flex items-center px-3 py-2 border border-gray-200 rounded-2xl">
+    <div className="flex items-center px-3 py-2 border border-slate-400 rounded-2xl">
       <Search size={18} />
       <input
         id={id}
