@@ -11,6 +11,7 @@ interface TrackCardProps {
   author: string;
   price: number;
   onPlayClick?: () => void;
+  onAddCartClick: () => void;
 }
 
 export function TrackCard({
@@ -21,6 +22,7 @@ export function TrackCard({
   author,
   price,
   onPlayClick,
+  onAddCartClick,
 }: TrackCardProps) {
   const navigate = useNavigate();
   return (
@@ -47,7 +49,7 @@ export function TrackCard({
       <PrimaryBtn
         text={`$${formatPrice(price).toString()}`}
         className="w-full"
-        onClick={() => console.log("hello")}
+        onClick={onAddCartClick}
       />
     </div>
   );

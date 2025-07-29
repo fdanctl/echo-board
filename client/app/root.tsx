@@ -12,6 +12,7 @@ import "./app.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { TrackProvider } from "./components/TrackProvider";
 import { UserProvider } from "./components/UserProvider";
+import { CartProvider } from "./components/CartProvider";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -68,7 +69,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <ThemeProvider>
           <UserProvider>
-            <TrackProvider>{children}</TrackProvider>
+            <CartProvider>
+              <TrackProvider>{children}</TrackProvider>
+            </CartProvider>
           </UserProvider>
         </ThemeProvider>
         <ScrollRestoration />

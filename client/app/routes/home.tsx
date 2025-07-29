@@ -16,6 +16,7 @@ import { Form, useSubmit } from "react-router";
 import { getTrackOptions } from "~/services/trackOptions";
 import { useState } from "react";
 import { useTrackContext } from "~/context/TrackContext";
+import { ActionType, useCartContext } from "~/context/CartContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -57,6 +58,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const submit = useSubmit();
   const initialForm = loaderData.form;
   const { changeCurrTrack } = useTrackContext();
+  const { dispatch } = useCartContext();
 
   return (
     <>
@@ -118,6 +120,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             author={e.author.name}
             price={e.price}
             onPlayClick={() => changeCurrTrack(e)}
+            onAddCartClick={() =>
+              dispatch({ type: ActionType.ADD_ITEM, payload: e })
+            }
           />
         ))}
       </div>
