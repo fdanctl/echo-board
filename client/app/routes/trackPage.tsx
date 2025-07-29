@@ -20,6 +20,7 @@ import { authenticatedFetch } from "~/services/api";
 import { parse } from "cookie";
 import type { AuthResponse } from "~/types/auth";
 import { useTrackContext } from "~/context/TrackContext";
+import { useUserContext } from "~/context/UserContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -64,26 +65,14 @@ interface Comment {
 
 export default function Track({ loaderData }: Route.ComponentProps) {
   const track = loaderData.track;
-  const [user, setUser] = useState<AuthResponse | null>(null); // TODO make context
+  const { user } = useUserContext()
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const { changeCurrTrack } = useTrackContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userStr = localStorage.getItem("user");
-
-    if (userStr) {
-      try {
-        const authRes = JSON.parse(userStr) as AuthResponse;
-        setUser(authRes);
-      } catch (e) {
-        localStorage.removeItem("user");
-        logout();
-      }
-    }
-  }, []);
+  console.log(user)
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -203,7 +192,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
 
       <div className="flex">
         <div onClick={handleLike}>
-          <Heart fill={isLiked ? "#111" : "none"} />
+          <Heart fill={isLiked ? "#ef4444" : "none"} />
         </div>
         {track.stats.Like}
       </div>

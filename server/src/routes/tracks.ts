@@ -23,7 +23,7 @@ router.post(
   ]),
   postTrack,
 );
-router.post("/", getTracks);
+router.post("/", authenticateTokenOptional, getTracks);
 router.get("/:id", authenticateTokenOptional, getTrack);
 router.get("/user/:username", getUserTracks);
 router.post("/:id/like", authenticateToken, likeTrack);

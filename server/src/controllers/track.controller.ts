@@ -20,13 +20,19 @@ import {
 } from "../services/tracks.service";
 
 export const getTracks = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) => {
   try {
+    let userId = req.user?.sub;
+
+    if (userId && typeof userId !== "string") {
+      userId = undefined;
+    }
+
     const body: Filters = req.body;
-    const track = await getManyTracks(body);
+    const track = await getManyTracks(body, userId);
 
     const response: ApiResponse<TrackInfo[]> = {
       success: true,

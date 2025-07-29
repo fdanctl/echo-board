@@ -8,7 +8,7 @@ export const TrackContext = createContext<
 export function useTrackContext() {
   const context = useContext(TrackContext);
   if (context === undefined) {
-    throw new Error("ThemeContext must be used within a ThemeContext.Provider");
+    throw new Error("TrackContext must be used within a TrackContext.Provider");
   }
   return context;
 }

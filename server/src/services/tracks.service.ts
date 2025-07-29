@@ -20,10 +20,10 @@ import {
 } from "../types/track";
 import ApiError from "../utils/apiError";
 
-export const getManyTracks = async (f: Filters) => {
-  const tracks = await readManyTracks(f ?? undefined);
+export const getManyTracks = async (f: Filters, userId?: string) => {
+  const tracks = await readManyTracks(f ?? undefined, userId);
   // console.log(track);
-  const theTracks = tracks.map((track) => ({
+  const theTracks: TrackInfo2[] = tracks.map((track) => ({
     id: track.id,
     url: track.trackUrl,
     imgUrl: track.imgUrl,
@@ -36,6 +36,7 @@ export const getManyTracks = async (f: Filters) => {
     price: track.price,
     bpm: track.bpm,
     comments: track.Comment,
+    isLikedByUser: track.Like ? track.Like.length !== 0 : false  
   }));
 
   return theTracks;

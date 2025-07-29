@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -107,8 +108,7 @@ async function main() {
   });
 
   // Sample users
-  const hashedPassword =
-    "$2b$08$B9Xpzv0N4fTTwQlALw1mj.YZKOlqzBtZR1ai.4Dwbu4UDs8dxkEbS";
+  const hashedPassword = bcrypt.hashSync("123", 8);
   const users = [
     {
       name: "Daniel",
@@ -148,7 +148,7 @@ async function main() {
     data: {
       name: "Mira Lavoie",
       username: "DigitalMira",
-      avatarUrl: "https://i.pravatar.cc/150?img=3",
+      avatarUrl: "https://i.pravatar.cc/150?img=7",
       email: "mira@example.com",
       password: hashedPassword,
       location: "Barcelona",

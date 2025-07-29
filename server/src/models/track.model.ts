@@ -1,7 +1,7 @@
 import prisma from "../config/prismaClient";
 import { Filters, NewTrack } from "../types/track";
 
-export const readManyTracks = async (f: Filters) => {
+export const readManyTracks = async (f: Filters, userId?: string) => {
   return await prisma.track.findMany({
     include: {
       User: {
@@ -30,6 +30,16 @@ export const readManyTracks = async (f: Filters) => {
         },
         take: 20,
       },
+      Like: userId
+        ? {
+            where: {
+              userId,
+            },
+            select: {
+              id: true,
+            },
+          }
+        : false,
       _count: {
         select: {
           Like: true,
@@ -46,10 +56,10 @@ export const readManyTracks = async (f: Filters) => {
       keyId: f.keys.length ? { in: f.keys } : undefined,
       Tag: f.tags.length
         ? {
-          some: {
-            id: { in: f.tags },
-          },
-        }
+            some: {
+              id: { in: f.tags },
+            },
+          }
         : undefined,
     },
     orderBy: { publishAt: "desc" },
