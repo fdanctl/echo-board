@@ -59,14 +59,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <Navbar />
-      <h1 className="font-medium text-3xl text-accent1">Hello</h1>
-      <Input
-        type="email"
-        label="Email"
-        id="email"
-        placeholder="Email"
-        required={true}
-      />
       <PrimaryBtn text="primary" />
       <PrimaryBtn text="Refresh" onClick={() => refresh()} />
       <SecundaryBtn text="secundary" />

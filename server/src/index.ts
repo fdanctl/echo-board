@@ -6,6 +6,7 @@ import { router as userRoutes } from "./routes/user";
 import { router as tracksRoutes } from "./routes/tracks";
 import { errorHandler } from "./middleware/errorHandler";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api/auth", authRoutes);
 app.use("/api/track-options", trackOptionsRoutes);
 app.use("/api/user", userRoutes);

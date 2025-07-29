@@ -27,6 +27,7 @@ export function TrackCard({
         className="w-full aspect-square bg-gray-500 relative rounded-xs"
         onClick={() => navigate(`/track/${id}`)}
       >
+        <img className="object-cover w-full h-full" src={`http://localhost:4000${thumbnailUrl}`}/>
         <div className="hidden p-3 rounded-full group-hover:block duration-150 bg-accent2/20 w-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-accent2 hover:bg-accent2/50">
           <Play fill="#d97e14" />
         </div>

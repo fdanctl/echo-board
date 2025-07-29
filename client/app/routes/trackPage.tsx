@@ -138,7 +138,9 @@ export default function Track({ loaderData }: Route.ComponentProps) {
       {/* HERO */}
       <div className="flex bg-background dark:bg-background-dark justify-between mb-6 p-4">
         <div className="flex gap-3">
-          <div className="aspect-square h-50 bg-gray-400 rounded-xs" />
+          <div className="aspect-square h-50 bg-gray-400 rounded-xs" >
+            <img className="object-cover w-full h-full" src={`http://localhost:4000${track.imgUrl}`}/>
+          </div>
           <div className="flex flex-col justify-between">
             <div className="flex gap-2 mt-3">
               <div className="aspect-square text-accent2 flex items-center justify-center bg-gray-400 w-fit h-fit p-3 rounded-full">

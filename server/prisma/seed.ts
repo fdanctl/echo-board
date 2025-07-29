@@ -174,8 +174,8 @@ async function main() {
   const track = await prisma.track.create({
     data: {
       name: "LO-FI TYPE BEAT - ONE LOVE",
-      trackUrl: "/upload/track/[tVcwohev7Aw].mp3",
-      imgUrl: "/upload/track/[tVcwohev7Aw].jpg",
+      trackUrl: "/uploads/track/[tVcwohev7Aw].mp3",
+      imgUrl: "/uploads/trackImg/[tVcwohev7Aw].jpg",
       userId: producerX.id,
       genreId: 4,
       moodId: 1,
@@ -192,8 +192,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: "bladee x whitearmor x drain gang type beat - solace",
-      trackUrl: "/upload/track/[bYN32e385eA].mp3",
-      imgUrl: "/upload/track/[bYN32e385eA].jpg",
+      trackUrl: "/uploads/track/[bYN32e385eA].mp3",
+      imgUrl: "/uploads/trackImg/[bYN32e385eA].jpg",
       userId: producerX.id,
       genreId: 12,
       moodId: 4,
@@ -210,8 +210,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'Lil Peep x IVOXYGEN "Nostalgia" (Prod. Sanctions x Maestro Wons)',
-      trackUrl: "/upload/track/[BpP_reXvLks].mp3",
-      imgUrl: "/upload/track/[BpP_reXvLks].jpg",
+      trackUrl: "/uploads/track/[BpP_reXvLks].mp3",
+      imgUrl: "/uploads/trackImg/[BpP_reXvLks].jpg",
       userId: producerX.id,
       genreId: 2,
       moodId: 4,
@@ -228,8 +228,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'Sematary Bloody Angels Type Beat "DIE 4 ME"',
-      trackUrl: "/upload/track/[8yk-0oe0LTM].mp3",
-      imgUrl: "/upload/track/[8yk-0oe0LTM].jpg",
+      trackUrl: "/uploads/track/[8yk-0oe0LTM].mp3",
+      imgUrl: "/uploads/trackImg/[8yk-0oe0LTM].jpg",
       userId: producerX.id,
       genreId: 1,
       moodId: 6,
@@ -246,8 +246,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'earl sweatshirt type beat "DiRT"',
-      trackUrl: "/upload/track/[lxJnz7Rk1_8].mp3",
-      imgUrl: "/upload/track/[lxJnz7Rk1_8].jpg",
+      trackUrl: "/uploads/track/[lxJnz7Rk1_8].mp3",
+      imgUrl: "/uploads/trackImg/[lxJnz7Rk1_8].jpg",
       userId: producerX.id,
       genreId: 2,
       moodId: 1,
@@ -264,8 +264,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'DEATH GRIPS X JPEGMAFIA TYPE BEAT - "TONE HUNT"',
-      trackUrl: "/upload/track/[SdgZOsV-NAg].mp3",
-      imgUrl: "/upload/track/[SdgZOsV-NAg].jpg",
+      trackUrl: "/uploads/track/[SdgZOsV-NAg].mp3",
+      imgUrl: "/uploads/trackImg/[SdgZOsV-NAg].jpg",
       userId: producer2.id,
       genreId: 2,
       moodId: 8,
@@ -282,8 +282,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'LIL PEEP TYPE BEAT - "YOUR LOVE" | EMO RAP TYPE BEAT',
-      trackUrl: "/upload/track/[SX3cBfkBMP0].mp3",
-      imgUrl: "/upload/track/[SX3cBfkBMP0].jpg",
+      trackUrl: "/uploads/track/[SX3cBfkBMP0].mp3",
+      imgUrl: "/uploads/trackImg/[SX3cBfkBMP0].jpg",
       userId: producer2.id,
       genreId: 1,
       moodId: 4,
@@ -300,8 +300,8 @@ async function main() {
   await prisma.track.create({
     data: {
       name: 'deftones x alternative rock x heavy shoegaze type beat - "rest"',
-      trackUrl: "/upload/track/[YFkECFkLNzc].mp3",
-      imgUrl: "/upload/track/[YFkECFkLNzc].jpg",
+      trackUrl: "/uploads/track/[YFkECFkLNzc].mp3",
+      imgUrl: "/uploads/trackImg/[YFkECFkLNzc].jpg",
       userId: producer2.id,
       genreId: 3,
       moodId: 8,

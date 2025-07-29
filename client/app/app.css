@@ -64,8 +64,8 @@
 /* Base styles */
 html,
 body {
-  @apply bg-background text-text;
-  @apply dark:bg-background-dark dark:text-text-dark;
+  @apply bg-slate-200 text-text;
+  @apply dark:bg-slate-950 dark:text-text-dark;
   font-family: var(--font-sans);
 }
 
