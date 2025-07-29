@@ -118,14 +118,22 @@ export const refreshAccessToken = async (token: string) => {
   }
 
   try {
-    const user = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET as string) as JwtPayloadCustom;
+    const user = jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET as string,
+    ) as JwtPayloadCustom;
 
     if (typeof user.sub !== "string") {
       throw new ApiError(403, "Invalid token");
     }
 
-    const newAccessToken = genJwtTokken(user.sub, user.username, "access", false);
-    return { newAccessToken };
+    const newAccessToken = genJwtTokken(
+      user.sub,
+      user.username,
+      "access",
+      false,
+    );
+    return { newAccessToken, user };
   } catch (error) {
     throw new ApiError(403, "Invalid or expired token");
   }

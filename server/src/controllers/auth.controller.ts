@@ -138,7 +138,8 @@ export const refresh = async (
 
     res
       .cookie("accessToken", newAccessToken.newAccessToken, accessCookieOptions)
-      .sendStatus(200)
+      .send(200)
+      .json(newAccessToken.user);
   } catch (error) {
     next(error);
   }
