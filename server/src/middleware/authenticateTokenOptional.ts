@@ -9,6 +9,7 @@ export const authenticateTokenOptional = (
   next: NextFunction,
 ) => {
   const token = req.cookies?.accessToken;
+  console.log("optional", token)
 
   if (!token) {
     return next()

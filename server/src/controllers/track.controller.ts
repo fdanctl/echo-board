@@ -17,6 +17,7 @@ import {
   likeOneTrack,
   unlikeOneTrack,
   getProducerTracks,
+  playOneTrack,
 } from "../services/tracks.service";
 
 export const getTracks = async (
@@ -163,6 +164,33 @@ export const unlikeTrack = async (
       success: true,
       data: {
         message: "Track unliked",
+      },
+    };
+    res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const playTrack = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const trackId = req.params.id;
+    const userId = req.user?.sub;
+    console.log("userId: ", userId);
+
+    if (userId && typeof userId !== "string") {
+      throw new ApiError(500, "Internal server error");
+    }
+
+    await playOneTrack({ trackId, userId });
+    const response: ApiResponse<{ message: string }> = {
+      success: true,
+      data: {
+        message: "Track played",
       },
     };
     res.status(200).json(response);

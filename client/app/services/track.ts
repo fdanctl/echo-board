@@ -87,3 +87,11 @@ export const unlikeTrack = async (id: string) => {
     credentials: "include",
   });
 };
+
+export const playTrack = async (id: string) => {
+  console.log("hello")
+  return await fetch(`${BASE_URL_CLIENT}/tracks/${id}/play`, {
+    method: "POST",
+    credentials: "include",
+  });
+};

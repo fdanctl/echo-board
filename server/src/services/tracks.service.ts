@@ -10,6 +10,7 @@ import {
   readManyTracks,
   readProducerTracks,
 } from "../models/track.model";
+import { addOneTrackPlay } from "../models/trackPlay.model";
 import {
   Filters,
   NewTrack,
@@ -163,6 +164,24 @@ export const unlikeOneTrack = async (data: {
   }
 
   const res = await deleteOneLike(data);
+
+  if (!res) {
+    throw new ApiError(500, "Internal server error");
+  }
+  return res;
+};
+
+export const playOneTrack = async (data: {
+  userId?: string;
+  trackId: string;
+}) => {
+  const track = await readOneTrack(data.trackId);
+
+  if (!track) {
+    throw new ApiError(400, "Track doesn't exist");
+  }
+
+  const res = await addOneTrackPlay(data);
 
   if (!res) {
     throw new ApiError(500, "Internal server error");
