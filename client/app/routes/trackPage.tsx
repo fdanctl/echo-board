@@ -65,14 +65,14 @@ interface Comment {
 
 export default function Track({ loaderData }: Route.ComponentProps) {
   const track = loaderData.track;
-  const { user } = useUserContext()
+  const { user } = useUserContext();
   const [content, setContent] = useState("");
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const { changeCurrTrack } = useTrackContext();
   const navigate = useNavigate();
 
-  console.log(user)
+  console.log(user);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -135,9 +135,12 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             />
           </div>
           <div className="flex flex-col justify-between">
-            <div className="flex gap-2 mt-3">
+            <div
+              className="flex gap-2 mt-3"
+              onClick={() => changeCurrTrack(track)}
+            >
               <div className="aspect-square text-accent2 flex items-center justify-center bg-gray-400 w-fit h-fit p-3 rounded-full">
-                <Play onClick={() => changeCurrTrack(track)} />
+                <Play />
               </div>
               <div>
                 <p className="text-xl font-medium truncate">{track.name}</p>
@@ -190,14 +193,17 @@ export default function Track({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="flex px-2">
         <div onClick={handleLike}>
-          <Heart fill={isLiked ? "#ef4444" : "none"} />
+          <Heart
+            className={`${isLiked && "text-red-500"}`}
+            fill={isLiked ? "#ef4444" : "none"}
+          />
         </div>
         {track.stats.Like}
       </div>
 
-      <div className="grid grid-cols-[1fr_auto] gap-6">
+      <div className="grid grid-cols-[1fr_auto] gap-6 px-2">
         {/* Comment section */}
         <div>
           <div className="flex justify-between">

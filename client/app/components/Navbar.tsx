@@ -12,7 +12,7 @@ export function Navbar() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const { user } = useUserContext();
-  const [showCart, setShowCart] = useState(true);
+  const [showCart, setShowCart] = useState(false);
   const {cart} = useCartContext();
 
   return (

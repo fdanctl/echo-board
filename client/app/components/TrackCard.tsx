@@ -36,7 +36,13 @@ export function TrackCard({
           src={`http://localhost:4000${thumbnailUrl}`}
         />
         <div className="hidden p-3 rounded-full group-hover:block duration-150 bg-accent2/20 w-fit absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-accent2 hover:bg-accent2/50">
-          <Play fill="#d97e14" onClick={onPlayClick} />
+          <Play
+            fill="#d97e14"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlayClick && onPlayClick();
+            }}
+          />
         </div>
       </div>
       <h6
