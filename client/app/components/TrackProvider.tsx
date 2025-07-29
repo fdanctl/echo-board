@@ -10,7 +10,6 @@ export function TrackProvider({ children }: { children: ReactNode }) {
   const changeCurrTrack = (newTrack: TrackInfo) => {
     setCurrTrack(newTrack);
     // TODO add one play
-    console.log("changed")
     playTrack(newTrack.id)
   };
 

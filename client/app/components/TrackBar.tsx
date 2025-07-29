@@ -98,7 +98,7 @@ export function TrackBar({
   }, []);
 
   return (
-    <div className="w-full h-24 bg-slate-950 border-t border-slate-300 text-white flex items-center justify-between px-4 shadow-lg">
+    <div className="w-full h-24 bg-slate-700 dark:bg-slate-950 border-t border-slate-300 text-white flex items-center justify-between px-4 shadow-lg">
       <audio ref={audioRef} autoPlay src={`http://localhost:4000${trackUrl}`} />
 
       {/* Left Section */}

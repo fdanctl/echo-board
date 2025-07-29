@@ -126,7 +126,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   return (
     <>
       {/* HERO */}
-      <div className="flex bg-background dark:bg-background-dark justify-between mb-6 p-4">
+      <div className="flex bg-slate-100 dark:bg-slate-600 justify-between mb-6 p-4">
         <div className="flex gap-3">
           <div className="aspect-square h-50 bg-gray-400 rounded-xs">
             <img
@@ -151,15 +151,15 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             </div>
             <div className="flex gap-1">
               <div className="flex gap-0.5 items-center">
-                <Play size={12} fill="#111" />
+                <Play size={12} fill="none" />
                 <p className="text-xs ">{track.stats.TrackPlay}</p>
               </div>
               <div className="flex gap-1 items-center">
-                <Heart size={12} fill="#111" />
+                <Heart size={12} fill="none" />
                 <p className="text-xs ">{track.stats.Like}</p>
               </div>
               <div className="flex gap-1 items-center">
-                <MessageCircle size={12} fill="#111" />
+                <MessageCircle size={12} fill="none" />
                 <p className="text-xs ">{track.stats.Comment}</p>
               </div>
             </div>
