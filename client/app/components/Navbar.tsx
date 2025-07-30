@@ -36,7 +36,7 @@ export function Navbar() {
               <PrimaryBtn text="Sign up" onClick={() => navigate("/signup")} />
             </div>
           ) : (
-            <PrimaryBtn text="Upload Track" />
+            <PrimaryBtn text="Upload Track" onClick={() => navigate("/new-track")} />
           )}
           <div
             className="text-white relative"

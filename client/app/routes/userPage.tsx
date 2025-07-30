@@ -7,6 +7,8 @@ import { redirect } from "react-router";
 import { getUserInfo } from "~/services/user";
 import { getUserTracks } from "~/services/track";
 import { TrackCard } from "~/components/TrackCard";
+import { useTrackContext } from "~/context/TrackContext";
+import { ActionType, useCartContext } from "~/context/CartContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -37,9 +39,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   };
 }
 
-export default function UploadTrack({ loaderData }: Route.ComponentProps) {
+export default function UserPage({ loaderData }: Route.ComponentProps) {
   const producer = loaderData.producer;
   const tracks = loaderData.tracks;
+  const { changeCurrTrack } = useTrackContext();
+  const { dispatch } = useCartContext();
+
   return (
     <>
       <UserHero
@@ -48,6 +53,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
         followers={producer.followers}
         tracksN={producer.tracksN}
         plays={producer.plays}
+        avatarUrl={producer.avatarUrl}
       />
       <section className="px-4">
       <h3 className="text-2xl mt-4">Tracks</h3>
@@ -61,6 +67,10 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
             title={e.name}
             author={e.author.name}
             price={e.price}
+            onPlayClick={() => changeCurrTrack(e)}
+            onAddCartClick={() =>
+              dispatch({ type: ActionType.ADD_ITEM, payload: e })
+            }
           />
         ))}
       </div>

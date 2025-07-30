@@ -8,12 +8,13 @@ export const getUserInfo = async (username: string) => {
     throw new ApiError(400, "No user with that username found");
   }
 
-  console.log("userInfo", user)
+  console.log("userInfo", user.avatarUrl)
 
   const userInfo: UserInfo = {
     name: user.name,
     username: user.username,
     location: user.location,
+    avatarUrl: user.avatarUrl,
     followers: 0,
     tracksN: user._count.Track,
     plays: user.Track.reduce((acc, play) => acc + play._count.TrackPlay, 0),

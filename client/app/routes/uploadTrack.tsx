@@ -15,7 +15,7 @@ import { getTrackOptions } from "~/services/trackOptions";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "Upload Track" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }

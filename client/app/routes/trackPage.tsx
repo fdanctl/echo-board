@@ -24,7 +24,7 @@ import { useUserContext } from "~/context/UserContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "Track Page" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }

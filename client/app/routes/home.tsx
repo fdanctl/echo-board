@@ -20,7 +20,7 @@ import { ActionType, useCartContext } from "~/context/CartContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "Home" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
@@ -61,10 +61,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const { dispatch } = useCartContext();
 
   return (
-    <>
+    <div className="px-4 mt-4">
       <Form method="get">
         <SearchInput id="q" placeholder="Search" />
-        <div className="flex">
+        <div className="flex mt-2">
           <DropdownWithSearch
             initialSelected={initialForm.trackTypes}
             id="track_types"
@@ -119,6 +119,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
