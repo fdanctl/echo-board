@@ -6,7 +6,7 @@ interface UserHeroProps {
   followers: number;
   plays: number;
   tracksN: number;
-  avatarUrl: string | null
+  avatarUrl: string | null;
 }
 
 export function UserHero({

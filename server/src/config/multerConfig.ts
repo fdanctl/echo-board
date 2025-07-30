@@ -2,7 +2,7 @@ import multer from "multer";
 import * as path from "path";
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, file, cb) => {
     let uploadPath = "src/uploads/";
 
     console.log(`fieldname: >${file.fieldname}<`);
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
     cb(null, uploadPath);
   },
-  filename: (req, file, cb) => {
+  filename: (_req, file, cb) => {
     const timestamp = Date.now();
     const ext = path.extname(file.originalname);
     const baseName = path.basename(file.originalname, ext);

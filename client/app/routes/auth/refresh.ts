@@ -2,7 +2,7 @@ import { BASE_URL } from "~/services/api";
 import { redirect } from "react-router";
 import type { Route } from "./+types/refresh";
 
-export async function loader({ params, request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const redirectTo = url.searchParams.get("redirect") ?? "/";
   console.log("redirectTo", redirectTo);

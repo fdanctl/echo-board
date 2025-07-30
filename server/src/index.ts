@@ -27,10 +27,6 @@ app.use("/api/track-options", trackOptionsRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/tracks", tracksRoutes);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, TypeScript + Express!");
-});
-
 // error handler middleware
 app.use(errorHandler);
 

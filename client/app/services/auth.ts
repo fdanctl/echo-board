@@ -1,6 +1,6 @@
 import type { ApiResponse } from "~/types/api";
 import type { AuthResponse, Credentials, JwtPayloadCustom, NewUser } from "~/types/auth";
-import { BASE_URL, BASE_URL_CLIENT } from "./api";
+import { BASE_URL_CLIENT } from "./api";
 
 export const signUp = async (c: NewUser) => {
   try {

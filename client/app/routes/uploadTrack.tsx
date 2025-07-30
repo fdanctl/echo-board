@@ -2,14 +2,11 @@ import { Input } from "~/components/Input";
 import { DropdownWithSearch } from "~/components/DropdownWithSearch";
 import type { Route } from "./+types/uploadTrack";
 import { FileInput } from "~/components/FileInput";
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { SelectInput } from "~/components/SelectInput";
-import { authenticatedFetch, BASE_URL } from "~/services/api";
-import type { ApiResponse } from "~/types/api";
-import type { TrackOptions } from "~/types/trackOptions";
+import { authenticatedFetch } from "~/services/api";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
-import { Form } from "react-router";
-import type { TrackForm } from "~/types/tracks";
+import { Form, redirect } from "react-router";
 import { postTrack } from "~/services/track";
 import { getTrackOptions } from "~/services/trackOptions";
 
@@ -21,14 +18,15 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader() {
-  return await getTrackOptions()
+  return await getTrackOptions();
 }
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
-  console.log("price: ", formData.get("price"))
+  console.log("price: ", formData.get("price"));
 
   await authenticatedFetch(() => postTrack(formData));
+  redirect("/");
 }
 
 interface Form {
@@ -160,11 +158,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
           />
         </div>
         <div className="flex">
-          <DropdownWithSearch
-            id="tags"
-            label="Tags"
-            options={loaderData.tag}
-          />
+          <DropdownWithSearch id="tags" label="Tags" options={loaderData.tag} />
           <Input
             type="text"
             label="BPM"

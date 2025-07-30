@@ -1,20 +1,11 @@
-import { Input } from "~/components/Input";
 import type { Route } from "./+types/home";
-import { PrimaryBtn } from "~/components/PrimaryBtn";
-import { SecundaryBtn } from "~/components/SecundaryBtn";
-import { useThemeContext } from "~/context/ThemeContext";
 import { SearchInput } from "~/components/SearchInput";
-import { FileInput } from "~/components/FileInput";
 import { DropdownWithSearch } from "~/components/DropdownWithSearch";
-import { SelectInput } from "~/components/SelectInput";
-import { Navbar } from "~/components/Navbar";
-import { refresh } from "~/services/auth";
 import { getTracks } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
 import { TrackCard } from "~/components/TrackCard";
 import { Form, useSubmit } from "react-router";
 import { getTrackOptions } from "~/services/trackOptions";
-import { useState } from "react";
 import { useTrackContext } from "~/context/TrackContext";
 import { ActionType, useCartContext } from "~/context/CartContext";
 
@@ -52,7 +43,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { changeTheme } = useThemeContext();
   const track = loaderData.tracks;
   const trackOpts = loaderData.trackOpts;
   const submit = useSubmit();
@@ -107,7 +97,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <TrackCard
             key={e.id}
             id={e.id}
-            trackUrl={e.url}
             thumbnailUrl={e.imgUrl}
             title={e.name}
             author={e.author.name}

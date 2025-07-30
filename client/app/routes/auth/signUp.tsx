@@ -6,7 +6,7 @@ import { LineWithText } from "~/components/LineWithText";
 import { ProviderBtn } from "~/components/ProviderBtn";
 import { signUp } from "~/services/auth";
 import type { ApiResponse } from "~/types/api";
-import type { AuthResponse, Credentials, NewUser } from "~/types/auth";
+import type { AuthResponse, NewUser } from "~/types/auth";
 
 export function meta({ }: Route.MetaArgs) {
   return [

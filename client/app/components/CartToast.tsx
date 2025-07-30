@@ -9,7 +9,7 @@ interface CartToastProps {
 
 export function CartToast({ className, cartItems }: CartToastProps) {
   return (
-    <div className="w-96 text-slate-100 px-4 py-2 absolute rounded bg-slate-700 dark:bg-slate-800 z-50 right-0.5 top-[66px]">
+    <div className={`w-96 text-slate-100 px-4 py-2 absolute rounded bg-slate-700 dark:bg-slate-800 z-50 right-0.5 top-[66px] ${className}`}>
       <h5 className="text-center text-xl font-medium mb-2">
         Your Cart ({cartItems.length})
       </h5>

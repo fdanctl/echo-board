@@ -4,9 +4,9 @@ import { ApiResponse } from "../types/api";
 
 export const errorHandler = (
   err: ApiError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
   const statusCode = err.statusCode || 500;
   const response: ApiResponse<void> = {

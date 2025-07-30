@@ -4,7 +4,7 @@ import { TrackOptions } from "../types/trackOptions";
 import { getAllTrackOptionsService } from "../services/trackOptions.service";
 
 export const getAllTrackOptions = async (
-  req: Request,
+  _req: Request,
   res: Response,
   next: NextFunction,
 ) => {

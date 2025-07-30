@@ -16,7 +16,6 @@ import {
   NewTrack,
   NewTrackComment,
   PostTrack,
-  TrackInfo,
   TrackInfo2,
 } from "../types/track";
 import ApiError from "../utils/apiError";
@@ -37,7 +36,7 @@ export const getManyTracks = async (f: Filters, userId?: string) => {
     price: track.price,
     bpm: track.bpm,
     comments: track.Comment,
-    isLikedByUser: track.Like ? track.Like.length !== 0 : false  
+    isLikedByUser: track.Like ? track.Like.length !== 0 : false,
   }));
 
   return theTracks;
@@ -88,8 +87,6 @@ export const getProducerTracks = async (producerUsername: string) => {
     bpm: track.bpm,
     comments: track.Comment,
   }));
-
-  console.log("the tracks", theTracks)
 
   return theTracks;
 };

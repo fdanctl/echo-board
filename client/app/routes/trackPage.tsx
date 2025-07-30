@@ -3,7 +3,6 @@ import type { Route } from "./+types/trackPage";
 import { SecundaryBtn } from "~/components/SecundaryBtn";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
 import { Input } from "~/components/Input";
-import { Navbar } from "~/components/Navbar";
 import {
   commentTrack,
   getTrack,
@@ -11,18 +10,16 @@ import {
   unlikeTrack,
 } from "~/services/track";
 import { verifyCookie } from "~/lib/validators";
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { Form, redirect, useNavigate } from "react-router";
-import { logout, refresh } from "~/services/auth";
+import {  useState, type ChangeEvent, type FormEvent } from "react";
+import {  redirect, useNavigate } from "react-router";
 import moment from "moment";
 import { formatPrice } from "~/lib/utils";
 import { authenticatedFetch } from "~/services/api";
-import { parse } from "cookie";
-import type { AuthResponse } from "~/types/auth";
 import { useTrackContext } from "~/context/TrackContext";
 import { useUserContext } from "~/context/UserContext";
+import { ActionType, useCartContext } from "~/context/CartContext";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Track Page" },
     { name: "description", content: "Welcome to React Router!" },
@@ -70,9 +67,8 @@ export default function Track({ loaderData }: Route.ComponentProps) {
   const [comments, setComments] = useState(track.comments);
   const [isLiked, setIsLiked] = useState(track.isLikedByUser);
   const { changeCurrTrack } = useTrackContext();
+  const { dispatch } = useCartContext();
   const navigate = useNavigate();
-
-  console.log(user);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -187,7 +183,12 @@ export default function Track({ loaderData }: Route.ComponentProps) {
             <p>
               <b>Price: </b>${formatPrice(track.price)}
             </p>
-            <SecundaryBtn text="Add to cart" />
+            <SecundaryBtn
+              text="Add to cart"
+              onClick={() =>
+                dispatch({ type: ActionType.ADD_ITEM, payload: track })
+              }
+            />
             <PrimaryBtn text="Buy Now" />
           </div>
         </div>

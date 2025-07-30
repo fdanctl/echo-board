@@ -5,7 +5,7 @@ import { Play } from "lucide-react";
 
 interface TrackCardProps {
   id: string;
-  trackUrl: string;
+  // trackUrl: string;
   thumbnailUrl: string;
   title: string;
   author: string;
@@ -16,7 +16,7 @@ interface TrackCardProps {
 
 export function TrackCard({
   id,
-  trackUrl,
+  // trackUrl,
   thumbnailUrl,
   title,
   author,

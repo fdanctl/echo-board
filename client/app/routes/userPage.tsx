@@ -1,7 +1,5 @@
-import { Input } from "~/components/Input";
 import type { Route } from "./+types/userPage";
 import { UserHero } from "~/components/UserHero";
-import { CartToast } from "~/components/CartToast";
 import { verifyCookie } from "~/lib/validators";
 import { redirect } from "react-router";
 import { getUserInfo } from "~/services/user";
@@ -62,7 +60,6 @@ export default function UserPage({ loaderData }: Route.ComponentProps) {
           <TrackCard
             key={e.id}
             id={e.id}
-            trackUrl={e.url}
             thumbnailUrl={e.imgUrl}
             title={e.name}
             author={e.author.name}

@@ -47,7 +47,7 @@ interface TrackBarProps {
   onSkipBack?: () => void;
   onSkipForward?: () => void;
   onLikeToggle?: () => void;
-  onVolumeChange?: (v: number) => void;
+  // onVolumeChange?: (v: number) => void;
   onMore?: () => void;
 }
 
@@ -62,12 +62,12 @@ export function TrackBar({
   onSkipBack,
   onSkipForward,
   onLikeToggle,
-  onVolumeChange,
+  // onVolumeChange,
   onMore,
 }: TrackBarProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(50);
+  // const [volume, setVolume] = useState(50);
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
