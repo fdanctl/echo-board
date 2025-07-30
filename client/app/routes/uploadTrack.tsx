@@ -26,7 +26,7 @@ export async function loader() {
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
-  console.log(formData.get("img"))
+  console.log("price: ", formData.get("price"))
 
   await authenticatedFetch(() => postTrack(formData));
 }

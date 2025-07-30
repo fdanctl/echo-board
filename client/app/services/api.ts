@@ -8,6 +8,7 @@ export const authenticatedFetch = async <T>(
   fetchFn: () => Promise<Response> 
 ): Promise<T> => {
   let res = await fetchFn();
+  console.log("authFetch");
 
   if (res.status === 401) {
     const refreshed = await refresh();

@@ -3,15 +3,16 @@ import * as path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    let uploadPath = "uploads/";
+    let uploadPath = "src/uploads/";
 
-    console.log("fieldname: ", file.fieldname);
+    console.log(`fieldname: >${file.fieldname}<`);
     if (file.fieldname === "avatar") {
-      uploadPath = "uploads/avatar";
+      uploadPath = "src/uploads/avatar";
     } else if (file.fieldname === "img") {
-      uploadPath = "uploads/trackImg";
+      uploadPath = "src/uploads/trackImg";
     } else if (file.fieldname === "track") {
-      uploadPath = "uploads/tracks";
+      console.log("i'm a track")
+      uploadPath = "src/uploads/track";
     }
 
     cb(null, uploadPath);

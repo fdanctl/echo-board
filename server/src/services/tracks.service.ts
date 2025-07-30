@@ -102,8 +102,8 @@ export const insertOneTrack = async (
 ) => {
   const newTrack: NewTrack = {
     userId: userId,
-    trackUrl: track.path,
-    imgUrl: img.path,
+    trackUrl: track.path.replace(/^src/, ""),
+    imgUrl: img.path.replace(/^src/, ""),
     name: data.name,
     trackTypeId: data.trackType,
     genreId: data.genre,

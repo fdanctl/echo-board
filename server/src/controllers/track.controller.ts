@@ -245,11 +245,11 @@ export const postTrack = async (
     const postTrack: PostTrack = {
       name: body.name,
       trackType: Number(body.trackType),
-      genre: Number(body.trackType),
-      mood: Number(body.trackType),
+      genre: Number(body.genre),
+      mood: Number(body.mood),
       tags: tags,
-      bpm: Number(body.trackType),
-      price: Number(body.trackType),
+      bpm: Number(body.bpm),
+      price: Number(body.price),
     };
 
     const data = await insertOneTrack(postTrack, userId, track, img);
