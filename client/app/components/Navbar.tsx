@@ -2,11 +2,18 @@ import { useState, type ChangeEvent } from "react";
 import { SearchInput } from "./SearchInput";
 import { SecundaryBtn } from "./SecundaryBtn";
 import { PrimaryBtn } from "./PrimaryBtn";
-import { ShoppingCart } from "lucide-react";
+import { Monitor, Moon, ShoppingCart, Sun } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useUserContext } from "~/context/UserContext";
 import { CartToast } from "./CartToast";
 import { useCartContext } from "~/context/CartContext";
+import { useThemeContext, type ThemeType } from "~/context/ThemeContext";
+
+const themeIcons = [
+  ["light", <Sun size={20} />],
+  ["dark", <Moon size={20} />],
+  ["system", <Monitor size={20} />],
+];
 
 export function Navbar() {
   const [search, setSearch] = useState("");
@@ -14,6 +21,7 @@ export function Navbar() {
   const { user } = useUserContext();
   const [showCart, setShowCart] = useState(false);
   const { cart } = useCartContext();
+  const { theme, changeTheme } = useThemeContext();
 
   return (
     <>
@@ -30,13 +38,28 @@ export function Navbar() {
           }
         />
         <div className="flex gap-4 items-center">
+          <div className="flex gap-1">
+            {themeIcons.map((e, i) => (
+              <button
+                key={i}
+                className={`rounded p-1.5 text-text-dark ${theme === e[0] && "bg-slate-600"
+                  }`}
+                onClick={() => changeTheme(e[0] as ThemeType)}
+              >
+                {e[1]}
+              </button>
+            ))}
+          </div>
           {!user ? (
             <div className="flex gap-1">
               <SecundaryBtn text="Sign in" onClick={() => navigate("/login")} />
               <PrimaryBtn text="Sign up" onClick={() => navigate("/signup")} />
             </div>
           ) : (
-            <PrimaryBtn text="Upload Track" onClick={() => navigate("/new-track")} />
+            <PrimaryBtn
+              text="Upload Track"
+              onClick={() => navigate("/new-track")}
+            />
           )}
           <div
             className="text-white relative"
