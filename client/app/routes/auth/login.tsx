@@ -1,4 +1,4 @@
-import { Form, redirect } from "react-router";
+import { Form, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/login";
 import { Input } from "~/components/Input";
 import { PrimaryBtn } from "~/components/PrimaryBtn";
@@ -7,6 +7,8 @@ import { ProviderBtn } from "~/components/ProviderBtn";
 import { Anchor } from "~/components/Anchor";
 import { login } from "~/services/auth";
 import type { Credentials } from "~/types/auth";
+import { useEffect } from "react";
+import { useUserContext } from "~/context/UserContext";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -24,14 +26,25 @@ export async function clientAction({ request }: Route.ClientActionArgs) {
 
   const res = await login(credentials);
 
-  if (res.success) {
-    localStorage.setItem("user", JSON.stringify(res.data));
-    return redirect("/");
-  }
+  // if (res.success) {
+  //   localStorage.setItem("user", JSON.stringify(res.data));
+  //   return redirect("/");
+  // }
   return res;
 }
 
 export default function Login({ actionData }: Route.ComponentProps) {
+  const userData = actionData;
+  const { changeUser } = useUserContext();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (userData?.success) {
+      changeUser(userData.data);
+      navigate("/")
+    }
+  }, [userData]);
+
   return (
     <>
       <h2 className="text-3xl mb-7">Welcome back</h2>

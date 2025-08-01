@@ -2,7 +2,11 @@ import { createContext, useContext } from "react";
 import type { AuthResponse } from "~/types/auth";
 
 export const UserContext = createContext<
-  { user: AuthResponse | null } | undefined
+  | {
+    user: AuthResponse | null;
+    changeUser: (user: AuthResponse | null) => void;
+  }
+  | undefined
 >(undefined);
 
 export function useUserContext() {
