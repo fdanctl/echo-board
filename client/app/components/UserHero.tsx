@@ -18,13 +18,13 @@ export function UserHero({
   avatarUrl,
 }: UserHeroProps) {
   return (
-    <div className="bg-gray-300 p-4 flex justify-between w-full items-center">
+    <div className="bg-slate-100 dark:bg-slate-600 p-4 flex justify-between w-full items-center">
       <div className="text-center flex flex-col items-center">
         <div className="aspect-square w-20 h-20 rounded-full bg-gray-400 cursor-pointer overflow-hidden">
           <img className="object-cover" src={avatarUrl ?? undefined} />
         </div>
         <h5 className="text-xl font-medium">{name}</h5>
-        <p className="text-gray-500">{location}</p>
+        <p className="text-gray-600 dark:text-gray-400">{location}</p>
       </div>
       <div className="grid grid-cols-2 gap-x-2 gap-y-4">
         <div className="font-medium text-right">

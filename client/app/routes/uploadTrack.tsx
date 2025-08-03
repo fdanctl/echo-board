@@ -75,7 +75,7 @@ export default function UploadTrack({ loaderData }: Route.ComponentProps) {
     key: "bpm" | "price"
   ) => {
     const input = e.target.value;
-    if (Number(input) || input === "") {
+    if (!Number.isNaN(Number(input)) || input === "") {
       setForm((ps) => ({ ...ps, [key]: input }));
     }
   };

@@ -141,7 +141,7 @@ export default function Track({ loaderData }: Route.ComponentProps) {
               <div>
                 <p className="text-xl font-medium truncate">{track.name}</p>
                 <p
-                  className="text-gray-600 whitespace-nowrap cursor-pointer"
+                  className="text-gray-600 dark:text-gray-400 whitespace-nowrap cursor-pointer"
                   onClick={() => navigate(`/user/${track.author.username}`)}
                 >
                   {track.author.name}
